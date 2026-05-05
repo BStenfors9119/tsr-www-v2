@@ -1,0 +1,7 @@
+{
+  "spec": ["src/**/*.test.js", "server/**/*.test.js"],
+  "recursive": true,
+  "timeout": 5000,
+  "reporter": "spec",
+  "import": "./test/setup.js"
+}

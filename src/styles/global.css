@@ -1,0 +1,95 @@
+:root {
+  --tsr-font: 'Inter', system-ui, -apple-system, sans-serif;
+  --tsr-max-width: 1200px;
+  --tsr-radius: 8px;
+}
+
+:root[data-theme='light'] {
+  --tsr-bg: #ffffff;
+  --tsr-fg: #0d0d0d;
+  --tsr-muted: #6b7280;
+  --tsr-accent: #16a34a;
+  --tsr-surface: #f4f4f5;
+  --tsr-border: #d4d4d8;
+}
+
+:root[data-theme='dark'] {
+  --tsr-bg: #0a0a0a;
+  --tsr-fg: #f4f4f5;
+  --tsr-muted: #a1a1aa;
+  --tsr-accent: #22c55e;
+  --tsr-surface: #18181b;
+  --tsr-border: #27272a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--tsr-font);
+  color: var(--tsr-fg);
+  background: var(--tsr-bg);
+  min-height: 100vh;
+}
+
+:root.is-theme-transitioning,
+:root.is-theme-transitioning *,
+:root.is-theme-transitioning *::before,
+:root.is-theme-transitioning *::after {
+  transition:
+    background-color 3s ease,
+    background 3s ease,
+    color 3s ease,
+    border-color 3s ease,
+    fill 3s ease,
+    stroke 3s ease,
+    box-shadow 3s ease !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root.is-theme-transitioning,
+  :root.is-theme-transitioning *,
+  :root.is-theme-transitioning *::before,
+  :root.is-theme-transitioning *::after {
+    transition: none !important;
+  }
+}
+
+a {
+  color: var(--tsr-accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+main {
+  display: block;
+  min-height: 60vh;
+}
+
+.tsr-container {
+  max-width: var(--tsr-max-width);
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+.tsr-button {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: var(--tsr-accent);
+  color: #27272a;
+  border: none;
+  border-radius: var(--tsr-radius);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tsr-button:hover {
+  filter: brightness(1.05);
+}
