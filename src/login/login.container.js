@@ -1,4 +1,5 @@
 import './login.pres.js';
+import { trackEvent } from '../lib/analytics.js';
 
 const initialState = { mode: 'login', error: null };
 
@@ -34,6 +35,10 @@ export class TsrLogin extends HTMLElement {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.target));
     const result = await submit({ mode: this._state.mode, ...data });
+    trackEvent('login_submit', {
+      mode: this._state.mode,
+      status: result.ok ? 'success' : 'error',
+    });
     if (!result.ok) {
       this._state = { ...this._state, error: result.error ?? 'Something went wrong' };
       this._render();

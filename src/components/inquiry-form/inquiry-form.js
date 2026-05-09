@@ -1,4 +1,5 @@
 import { sendInfoRequest } from '../../lib/info-request.js';
+import { trackEvent } from '../../lib/analytics.js';
 
 const renderForm = ({ prompt, submitLabel }) => `
   <form class="inquiry-form" novalidate>
@@ -92,6 +93,7 @@ export class TsrInquiryForm extends HTMLElement {
       e.preventDefault();
       if (!form.checkValidity()) {
         form.reportValidity();
+        trackEvent('inquiry_submit', { status: 'invalid' });
         return;
       }
       const data = Object.fromEntries(new FormData(form));
@@ -105,10 +107,12 @@ export class TsrInquiryForm extends HTMLElement {
         form.reset();
         status.textContent = 'Thanks — your message has been sent.';
         status.style.color = 'var(--tsr-accent)';
+        trackEvent('inquiry_submit', { status: 'success' });
       } catch (err) {
         console.error('[inquiry-form]', err);
         status.textContent = 'Sorry — something went wrong. Please try again.';
         status.style.color = '#c0392b';
+        trackEvent('inquiry_submit', { status: 'error' });
       }
     });
   }

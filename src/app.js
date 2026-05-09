@@ -1,4 +1,5 @@
 import { matchRoute, onRouteChange } from './router.js';
+import { trackEvent, trackPageView } from './lib/analytics.js';
 
 const renderShell = (routeTag) => `
   <tsr-header></tsr-header>
@@ -19,9 +20,28 @@ export class TsrApp extends HTMLElement {
   connectedCallback() {
     applyTheme();
     this.render();
-    this._unsub = onRouteChange(() => this.render());
+    trackPageView(window.location.pathname);
+    this._unsub = onRouteChange(() => {
+      this.render();
+      trackPageView(window.location.pathname);
+    });
 
     document.addEventListener('click', (e) => {
+      const cta = e.target.closest('[data-cta]');
+      if (cta) {
+        trackEvent('cta_click', {
+          cta_id: cta.dataset.cta,
+          cta_label: cta.textContent.trim(),
+          destination: cta.getAttribute('href') ?? null,
+        });
+      }
+      const footerLink = e.target.closest('.tsr-footer a[href]');
+      if (footerLink) {
+        trackEvent('footer_link_click', {
+          href: footerLink.getAttribute('href'),
+          label: footerLink.textContent.trim(),
+        });
+      }
       const link = e.target.closest('a[data-link]');
       if (!link) return;
       e.preventDefault();

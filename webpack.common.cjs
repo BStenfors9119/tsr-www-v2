@@ -14,6 +14,9 @@ const clientEnv = {
   'process.env.FIREBASE_AUTH_DOMAIN': JSON.stringify(process.env.FIREBASE_AUTH_DOMAIN ?? ''),
   'process.env.FIREBASE_PROJECT_ID': JSON.stringify(process.env.FIREBASE_PROJECT_ID ?? ''),
   'process.env.FIREBASE_APP_ID': JSON.stringify(process.env.FIREBASE_APP_ID ?? ''),
+  'process.env.FIREBASE_MEASUREMENT_ID': JSON.stringify(
+    process.env.FIREBASE_MEASUREMENT_ID ?? '',
+  ),
 };
 
 module.exports = {

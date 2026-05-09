@@ -5,6 +5,8 @@ const escapeHtml = (s) =>
       ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c],
   );
 
+import { trackEvent } from '../lib/analytics.js';
+
 export const renderHome = ({
   headline,
   subhead,
@@ -54,7 +56,7 @@ export const renderHome = ({
     <div class="tsr-container hero__inner">
       <h1>${headline}</h1>
       <p class="hero__sub">${subhead}</p>
-      <a href="/products" data-link class="tsr-button">${ctaLabel}</a>
+      <a href="/products" data-link data-cta="hero_see_products" class="tsr-button">${ctaLabel}</a>
     </div>
   </section>
 
@@ -280,6 +282,7 @@ export class TsrHomePres extends HTMLElement {
         scrollTo(i);
         setActive(i);
         this._restartTestimonialsAuto();
+        trackEvent('testimonial_select', { index: i });
       });
     });
 
