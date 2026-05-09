@@ -57,6 +57,9 @@ export class TsrApp extends HTMLElement {
 
   render() {
     const route = matchRoute(window.location.pathname);
+    document.title = route.label
+      ? `${route.label} | The Sports Remote`
+      : 'The Sports Remote';
     this.innerHTML = renderShell(route.tag);
   }
 }
