@@ -1,3 +1,10 @@
+const escapeHtml = (s) =>
+  String(s).replace(
+    /[&<>"']/g,
+    (c) =>
+      ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c],
+  );
+
 export const renderHome = ({
   headline,
   subhead,
@@ -5,9 +12,34 @@ export const renderHome = ({
   heroImage,
   quote,
   quoteAuthor,
+  testimonials,
   features,
   clients,
 }) => {
+  const items =
+    testimonials && testimonials.length
+      ? testimonials
+      : quote
+        ? [{ quote, author: quoteAuthor }]
+        : [];
+
+  const slides = items
+    .map(
+      (t, i) => `
+        <li class="testimonials__slide" id="testimonial-${i}" aria-roledescription="slide" aria-label="${i + 1} of ${items.length}">
+          <blockquote>${escapeHtml(t.quote)}</blockquote>
+          <cite>— ${escapeHtml(t.author)}</cite>
+        </li>`,
+    )
+    .join('');
+
+  const dots = items
+    .map(
+      (_, i) => `
+        <button type="button" class="testimonials__dot${i === 0 ? ' is-active' : ''}" data-index="${i}" aria-label="Show testimonial ${i + 1}"></button>`,
+    )
+    .join('');
+
   const clientItems = (clients ?? [])
     .map(
       (c) => `
@@ -26,12 +58,23 @@ export const renderHome = ({
     </div>
   </section>
 
-  <section class="quote">
-    <div class="tsr-container">
-      <blockquote>${quote}</blockquote>
-      <cite>— ${quoteAuthor}</cite>
-    </div>
-  </section>
+  ${
+    items.length
+      ? `
+    <section class="testimonials" aria-roledescription="carousel" aria-label="Customer testimonials">
+      <div class="tsr-container">
+        <ul class="testimonials__track" tabindex="0">
+          ${slides}
+        </ul>
+        ${
+          items.length > 1
+            ? `<div class="testimonials__dots" role="tablist">${dots}</div>`
+            : ''
+        }
+      </div>
+    </section>`
+      : ''
+  }
 
   ${
     clients && clients.length
@@ -77,9 +120,57 @@ export const renderHome = ({
     }
     .hero h1 { font-size: clamp(2rem, 4vw, 3.25rem); margin: 0 0 1rem; color: #fff; }
     .hero__sub { font-size: 1.125rem; color: #d4d4d8; max-width: 640px; margin: 0 0 1.5rem; }
-    .quote { padding: 3rem 0; }
-    .quote blockquote { font-size: 1.25rem; font-style: italic; margin: 0 0 0.5rem; }
-    .quote cite { color: var(--tsr-muted); }
+    .testimonials { padding: 3rem 0; }
+    .testimonials__track {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      gap: 1.5rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .testimonials__track::-webkit-scrollbar { display: none; }
+    .testimonials__track:focus { outline: none; }
+    .testimonials__slide {
+      flex: 0 0 100%;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      min-width: 0;
+    }
+    .testimonials__slide blockquote {
+      font-size: 1.25rem;
+      font-style: italic;
+      margin: 0 0 0.5rem;
+    }
+    .testimonials__slide cite { color: var(--tsr-muted); }
+    .testimonials__dots {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1.25rem;
+    }
+    .testimonials__dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 1px solid var(--tsr-border);
+      background: transparent;
+      padding: 0;
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.2s;
+    }
+    .testimonials__dot.is-active {
+      background: var(--tsr-accent, #2563eb);
+      border-color: var(--tsr-accent, #2563eb);
+      transform: scale(1.15);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .testimonials__track { scroll-behavior: auto; }
+    }
     .features { padding: 3rem 0; }
     .features h2 { margin: 0 0 1.5rem; }
     .features__grid {
@@ -155,10 +246,89 @@ export class TsrHomePres extends HTMLElement {
     this._render();
   }
 
+  disconnectedCallback() {
+    this._stopTestimonialsAuto();
+  }
+
   _render() {
+    this._stopTestimonialsAuto();
     if (!this._props) return;
     this.innerHTML = renderHome(this._props);
     this._tagTransparentLogos();
+    this._initTestimonials();
+  }
+
+  _initTestimonials() {
+    const track = this.querySelector('.testimonials__track');
+    if (!track) return;
+    const slides = Array.from(track.children);
+    if (slides.length < 2) return;
+
+    const dots = Array.from(this.querySelectorAll('.testimonials__dot'));
+    const setActive = (i) => {
+      dots.forEach((d, di) => d.classList.toggle('is-active', di === i));
+    };
+    const scrollTo = (i) => {
+      const target = slides[i];
+      if (!target) return;
+      track.scrollTo({ left: target.offsetLeft, behavior: 'smooth' });
+    };
+
+    dots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        const i = Number(dot.dataset.index);
+        scrollTo(i);
+        setActive(i);
+        this._restartTestimonialsAuto();
+      });
+    });
+
+    let scrollRaf = 0;
+    track.addEventListener('scroll', () => {
+      if (scrollRaf) return;
+      scrollRaf = requestAnimationFrame(() => {
+        scrollRaf = 0;
+        const i = Math.round(track.scrollLeft / track.clientWidth);
+        setActive(Math.max(0, Math.min(slides.length - 1, i)));
+      });
+    });
+
+    const reduceMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches;
+    if (reduceMotion) return;
+
+    const advance = () => {
+      const current = Math.round(track.scrollLeft / track.clientWidth);
+      const next = (current + 1) % slides.length;
+      scrollTo(next);
+    };
+    this._testimonialsAdvance = advance;
+    this._startTestimonialsAuto();
+
+    const pause = () => this._stopTestimonialsAuto();
+    const resume = () => this._startTestimonialsAuto();
+    track.addEventListener('mouseenter', pause);
+    track.addEventListener('mouseleave', resume);
+    track.addEventListener('focusin', pause);
+    track.addEventListener('focusout', resume);
+  }
+
+  _startTestimonialsAuto() {
+    if (this._testimonialsTimer || !this._testimonialsAdvance) return;
+    this._testimonialsTimer = setInterval(this._testimonialsAdvance, 6000);
+  }
+
+  _stopTestimonialsAuto() {
+    if (this._testimonialsTimer) {
+      clearInterval(this._testimonialsTimer);
+      this._testimonialsTimer = 0;
+    }
+  }
+
+  _restartTestimonialsAuto() {
+    this._stopTestimonialsAuto();
+    this._startTestimonialsAuto();
   }
 
   _tagTransparentLogos() {

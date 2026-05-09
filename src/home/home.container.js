@@ -1,4 +1,5 @@
 import './home.pres.js';
+import testimonials from './testimonials.json';
 
 const humanize = (filename) =>
   filename
@@ -27,9 +28,7 @@ const loadHomeProps = async () => ({
     'TSR is a TV channel control system built for sports bars and venues — schedule games, group TVs, and switch between events in seconds.',
   ctaLabel: 'See products',
   heroImage: '/assets/small-bar.jpg',
-  quote:
-    "I've been using TSR since Knotty Barrel in Rancho Penasquitos opened in 2019. It helps me change channels to any major sporting event in seconds.",
-  quoteAuthor: 'James Thorp, Owner of Knotty Barrel — Rancho Penasquitos',
+  testimonials,
   features: [
     {
       title: 'Group your TVs',
