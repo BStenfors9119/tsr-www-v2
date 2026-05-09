@@ -1,17 +1,14 @@
 const config = {
-  apiKey: process.env.FIREBASE_API_KEY,
-  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.FIREBASE_PROJECT_ID,
-  appId: process.env.FIREBASE_APP_ID,
-  measurementId: process.env.FIREBASE_MEASUREMENT_ID,
+  apiKey: 'AIzaSyD-L0GwMa3C3PtpnAMneWp5fPMaNZwsrdE',
+  authDomain: 'tsr-fb303.firebaseapp.com',
+  projectId: 'tsr-fb303',
+  storageBucket: 'tsr-fb303.firebasestorage.app',
+  messagingSenderId: '406408554112',
+  appId: '1:406408554112:web:df118a86ee8e97b29da865',
+  measurementId: 'G-249L0L7PFS',
 };
 
-const isEnabled = () =>
-  process.env.NODE_ENV === 'production' &&
-  !!config.measurementId &&
-  !!config.apiKey &&
-  !!config.appId &&
-  !!config.projectId;
+const isEnabled = () => process.env.NODE_ENV === 'production';
 
 let analyticsPromise = null;
 let logEventFn = null;
