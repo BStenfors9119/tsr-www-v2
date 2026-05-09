@@ -5,7 +5,8 @@ export const routes = [
   { path: '/about', tag: 'tsr-about', label: 'About Us' },
   { path: '/contact', tag: 'tsr-contact', label: 'Contact Us' },
   { path: '/login', tag: 'tsr-login', label: 'Login' },
-  { path: '/install', tag: 'tsr-install', label: 'Install', hidden: false },
+  { path: '/install', tag: 'tsr-install', label: 'Install', hidden: false
+  },
 ];
 
 export const navRoutes = routes.filter((r) => !r.hidden);
