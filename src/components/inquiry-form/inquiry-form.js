@@ -1,6 +1,28 @@
 import { sendInfoRequest } from '../../lib/info-request.js';
 import { trackEvent } from '../../lib/analytics.js';
 
+const TURNSTILE_SCRIPT_SRC = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+
+const getTurnstileSiteKey = () =>
+  document.querySelector('meta[name="turnstile-site-key"]')?.content?.trim() || '';
+
+const loadTurnstileScript = () => {
+  if (window.turnstile) return Promise.resolve();
+  const existing = document.querySelector(`script[src="${TURNSTILE_SCRIPT_SRC}"]`);
+  if (existing) {
+    return new Promise((resolve) => existing.addEventListener('load', resolve, { once: true }));
+  }
+  return new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = TURNSTILE_SCRIPT_SRC;
+    s.async = true;
+    s.defer = true;
+    s.onload = resolve;
+    s.onerror = reject;
+    document.head.appendChild(s);
+  });
+};
+
 const renderForm = ({ prompt, submitLabel }) => `
   <form class="inquiry-form" novalidate>
     <div class="inquiry-form__field">
@@ -17,6 +39,13 @@ const renderForm = ({ prompt, submitLabel }) => `
       <label for="if-message">${prompt} <span aria-hidden="true">*</span></label>
       <textarea id="if-message" name="message" rows="5" required></textarea>
     </div>
+
+    <div class="inquiry-form__hp" aria-hidden="true">
+      <label for="if-website">Website</label>
+      <input id="if-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+    </div>
+
+    <div class="inquiry-form__turnstile"></div>
 
     <button type="submit" class="tsr-button inquiry-form__submit">${submitLabel}</button>
     <p class="inquiry-form__status" hidden role="status" aria-live="polite"></p>
@@ -65,6 +94,14 @@ const renderForm = ({ prompt, submitLabel }) => `
       margin: 0;
       font-weight: 600;
     }
+    .inquiry-form__hp {
+      position: absolute;
+      left: -10000px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
   </style>
 `;
 
@@ -88,6 +125,29 @@ export class TsrInquiryForm extends HTMLElement {
 
     const form = this.querySelector('form');
     const status = this.querySelector('.inquiry-form__status');
+    const turnstileContainer = this.querySelector('.inquiry-form__turnstile');
+    const renderedAt = Date.now();
+
+    const siteKey = getTurnstileSiteKey();
+    let turnstileWidgetId = null;
+    let turnstileToken = '';
+
+    if (siteKey) {
+      loadTurnstileScript()
+        .then(() => {
+          const tryRender = () => {
+            if (!window.turnstile) return setTimeout(tryRender, 100);
+            turnstileWidgetId = window.turnstile.render(turnstileContainer, {
+              sitekey: siteKey,
+              callback: (token) => { turnstileToken = token; },
+              'error-callback': () => { turnstileToken = ''; },
+              'expired-callback': () => { turnstileToken = ''; },
+            });
+          };
+          tryRender();
+        })
+        .catch((err) => console.warn('[inquiry-form] turnstile load failed', err));
+    }
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -96,7 +156,15 @@ export class TsrInquiryForm extends HTMLElement {
         trackEvent('inquiry_submit', { status: 'invalid' });
         return;
       }
+      if (siteKey && !turnstileToken) {
+        status.hidden = false;
+        status.textContent = 'Please complete the verification challenge.';
+        status.style.color = '#c0392b';
+        return;
+      }
       const data = Object.fromEntries(new FormData(form));
+      data.ts = renderedAt;
+      data.turnstileToken = turnstileToken;
 
       status.hidden = false;
       status.textContent = 'Sending…';
@@ -105,6 +173,10 @@ export class TsrInquiryForm extends HTMLElement {
       try {
         await sendInfoRequest(data);
         form.reset();
+        if (turnstileWidgetId !== null && window.turnstile) {
+          window.turnstile.reset(turnstileWidgetId);
+          turnstileToken = '';
+        }
         status.textContent = 'Thanks — your message has been sent.';
         status.style.color = 'var(--tsr-accent)';
         trackEvent('inquiry_submit', { status: 'success' });
