@@ -1,5 +1,6 @@
 import js from '@eslint/js';
 import prettier from 'eslint-config-prettier';
+import globals from 'globals';
 
 export default [
   js.configs.recommended,
@@ -9,12 +10,7 @@ export default [
       ecmaVersion: 2023,
       sourceType: 'module',
       globals: {
-        window: 'readonly',
-        document: 'readonly',
-        customElements: 'readonly',
-        HTMLElement: 'readonly',
-        fetch: 'readonly',
-        console: 'readonly',
+        ...globals.browser,
         process: 'readonly',
         __dirname: 'readonly',
         require: 'readonly',
@@ -23,6 +19,22 @@ export default [
     },
     rules: {
       'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+    },
+  },
+  {
+    files: ['**/*.test.js'],
+    languageOptions: {
+      globals: {
+        ...globals.mocha,
+      },
+    },
+  },
+  {
+    files: ['server/**/*.js', 'server.js'],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
     },
   },
 ];

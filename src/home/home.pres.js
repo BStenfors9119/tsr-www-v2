@@ -17,6 +17,7 @@ export const renderHome = ({
   testimonials,
   features,
   clients,
+  installSpotlight,
 }) => {
   const items =
     testimonials && testimonials.length
@@ -89,6 +90,37 @@ export const renderHome = ({
             ${clientItems}
             ${clientItems}
           </div>
+        </div>
+      </div>
+    </section>`
+      : ''
+  }
+
+  ${
+    installSpotlight
+      ? `
+    <section class="install-spotlight">
+      <div class="tsr-container install-spotlight__inner">
+        <div class="install-spotlight__copy">
+          <h2>${installSpotlight.title}</h2>
+          <p>${installSpotlight.body}</p>
+          <ul class="install-spotlight__points">
+            ${installSpotlight.points.map((p) => `<li>${escapeHtml(p)}</li>`).join('')}
+          </ul>
+          <div class="install-spotlight__actions">
+            <a href="${installSpotlight.ctaPrimary.href}" data-link data-cta="home_install_guide" class="tsr-button">${installSpotlight.ctaPrimary.label}</a>
+            <a href="${installSpotlight.ctaSecondary.href}" data-link data-cta="home_shop_hardware" class="install-spotlight__secondary">${installSpotlight.ctaSecondary.label}</a>
+          </div>
+        </div>
+        <div class="install-spotlight__video">
+          <video
+            src="${installSpotlight.video}"
+            controls
+            muted
+            playsinline
+            preload="metadata"
+            aria-label="${installSpotlight.videoLabel}"></video>
+          <p class="install-spotlight__caption">${installSpotlight.videoLabel}</p>
         </div>
       </div>
     </section>`
@@ -172,6 +204,53 @@ export const renderHome = ({
     }
     @media (prefers-reduced-motion: reduce) {
       .testimonials__track { scroll-behavior: auto; }
+    }
+    .install-spotlight {
+      padding: 3rem 0;
+      background: var(--tsr-surface);
+      border-top: 1px solid var(--tsr-border);
+      border-bottom: 1px solid var(--tsr-border);
+    }
+    .install-spotlight__inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      align-items: center;
+    }
+    @media (max-width: 760px) {
+      .install-spotlight__inner { grid-template-columns: 1fr; }
+    }
+    .install-spotlight__copy h2 { margin: 0 0 0.75rem; }
+    .install-spotlight__copy > p { color: var(--tsr-muted); margin: 0 0 1rem; }
+    .install-spotlight__points {
+      margin: 0 0 1.5rem;
+      padding-left: 1.25rem;
+      display: grid;
+      gap: 0.4rem;
+    }
+    .install-spotlight__actions {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+    .install-spotlight__secondary {
+      font-weight: 600;
+      color: var(--tsr-accent, #2563eb);
+      text-decoration: none;
+    }
+    .install-spotlight__secondary:hover { text-decoration: underline; }
+    .install-spotlight__video video {
+      width: 100%;
+      border-radius: var(--tsr-radius);
+      background: #000;
+      display: block;
+    }
+    .install-spotlight__caption {
+      margin: 0.5rem 0 0;
+      font-size: 0.85rem;
+      color: var(--tsr-muted);
+      text-align: center;
     }
     .features { padding: 3rem 0; }
     .features h2 { margin: 0 0 1.5rem; }

@@ -6,11 +6,74 @@
     <meta name="theme-color" content="#0b1320" />
     <meta
       name="description"
-      content="The Sports Remote — TV channel control system for sports bars and venues."
+      content="The Sports Remote (TSR) — TV and channel control for sports bars. Works with DirecTV and cable boxes, one box per TV, no cable runs. Schedule games, group TVs, and change channels from your phone."
     />
-    <title>The Sports Remote</title>
+    <meta
+      name="keywords"
+      content="sports bar TV control, DirecTV channel changer, change channels sports bar, cable box remote control system, bar TV management, sports bar channel scheduling, IR remote control system, restaurant TV control"
+    />
+    <link rel="canonical" href="https://www.thesportsremote.com/" />
+    <title>The Sports Remote — TV Channel Control for Sports Bars</title>
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="The Sports Remote" />
+    <meta property="og:title" content="The Sports Remote — TV Channel Control for Sports Bars" />
+    <meta
+      property="og:description"
+      content="Schedule games, group TVs, and change channels from your phone. Works with DirecTV and cable boxes — no cable runs, all cables stay at the TV."
+    />
+    <meta property="og:url" content="https://www.thesportsremote.com/" />
+    <meta property="og:image" content="https://www.thesportsremote.com/assets/small-bar.jpg" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="The Sports Remote — TV Channel Control for Sports Bars" />
+    <meta
+      name="twitter:description"
+      content="Schedule games, group TVs, and change channels from your phone. Works with DirecTV and cable boxes — no cable runs."
+    />
+    <meta name="twitter:image" content="https://www.thesportsremote.com/assets/small-bar.jpg" />
+
     <link rel="icon" href="/favicon.ico" />
     <meta name="turnstile-site-key" content="0x4AAAAAADOtRgkce3xPhltT" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://www.thesportsremote.com/#org",
+            "name": "The Sports Remote",
+            "url": "https://www.thesportsremote.com/",
+            "logo": "https://www.thesportsremote.com/assets/circle-logo.png",
+            "email": "support@thesportsremote.com",
+            "description": "TV and channel control system for sports bars and venues. Works with DirecTV and cable boxes — schedule games, group TVs, and change channels from a phone."
+          },
+          {
+            "@type": "Product",
+            "name": "TSR Receiver",
+            "brand": { "@id": "https://www.thesportsremote.com/#org" },
+            "description": "IR receiver that pairs with existing TVs and cable boxes for app-based channel control. Ideal for sports bars with a 1-to-1 cable box to TV setup — no cable runs needed.",
+            "offers": [
+              {
+                "@type": "Offer",
+                "price": "5.00",
+                "priceCurrency": "USD",
+                "description": "Service: $5 per receiver per month"
+              },
+              {
+                "@type": "Offer",
+                "price": "50.00",
+                "priceCurrency": "USD",
+                "description": "Hardware: receiver with IR emitter, power cable, and HDMI cable"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
     <tsr-app></tsr-app>

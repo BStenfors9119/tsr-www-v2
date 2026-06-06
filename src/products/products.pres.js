@@ -1,20 +1,56 @@
-export const renderProducts = ({ items }) => `
+const renderBuyAction = (p) =>
+  p.buyUrl
+    ? `<a class="tsr-button product__buy"
+         href="${p.buyUrl}"
+         target="_blank"
+         rel="noopener"
+         data-cta="buy_${p.name.toLowerCase().replace(/[^a-z0-9]+/g, '_')}">Buy now — ${p.price}</a>`
+    : `<p class="product__example">Available soon — use the inquiry form below to order.</p>`;
+
+export const renderProducts = ({ package: pkg, hardware }) => `
   <section class="tsr-container" style="padding:2.5rem 1.25rem;">
     <h1>Products</h1>
     <p>Hardware and software that powers TV control at your venue.</p>
+    ${
+      pkg
+        ? `
+    <article class="product product--package">
+      <h3>${pkg.name}</h3>
+      <p>${pkg.description}</p>
+      <ul class="package__includes">
+        ${pkg.includes
+          .map(
+            (line) => `
+          <li>
+            <strong>${line.item}</strong> — ${line.price}
+            ${line.detail ? `<span class="product__example">${line.detail}</span>` : ''}
+          </li>`,
+          )
+          .join('')}
+      </ul>
+    </article>`
+        : ''
+    }
+
+    ${
+      hardware && hardware.length
+        ? `
+    <h2 style="margin-top:2.5rem;">Buy hardware outright</h2>
+    <p>Need a replacement part, or want the gear without the service? Order directly below.</p>
     <div class="products__grid">
-      ${items
+      ${hardware
         .map(
           (p) => `
         <article class="product">
           <h3>${p.name}</h3>
           <p>${p.description}</p>
-          <strong>${p.price}</strong>
-          ${p.example ? `<p class="product__example">${p.example}</p>` : ''}
+          <div class="product__action">${renderBuyAction(p)}</div>
         </article>`,
         )
         .join('')}
-    </div>
+    </div>`
+        : ''
+    }
 
     <h2 style="margin-top:2.5rem;">Interested in a product?</h2>
     <tsr-inquiry-form prompt="Which product are you interested in?" submit-label="Send inquiry"></tsr-inquiry-form>
@@ -31,11 +67,38 @@ export const renderProducts = ({ items }) => `
       border: 1px solid var(--tsr-border);
       border-radius: var(--tsr-radius);
       background: var(--tsr-surface);
+      display: flex;
+      flex-direction: column;
     }
     .product__example {
       margin: 0.5rem 0 0;
       font-size: 0.875rem;
       color: var(--tsr-muted);
+    }
+    .product__action {
+      margin-top: auto;
+      padding-top: 0.75rem;
+    }
+    .product__buy {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: center;
+    }
+    .product--package {
+      margin-top: 1.5rem;
+      border-color: var(--tsr-accent, #2563eb);
+    }
+    .product--package h3 { font-size: 1.35rem; }
+    .package__includes {
+      margin: 1rem 0 0;
+      padding-left: 1.25rem;
+      display: grid;
+      gap: 0.75rem;
+    }
+    .package__includes .product__example {
+      display: block;
+      margin-top: 0.15rem;
     }
   </style>
 `;

@@ -25,7 +25,7 @@ const loadClientLogos = () => {
 const loadHomeProps = async () => ({
   headline: 'Change the channel. Faster.',
   subhead:
-    'TSR is a TV channel control system built for sports bars and venues — schedule games, group TVs, and switch between events in seconds.',
+    'TSR is a TV channel control system built for sports bars and venues — it works with your existing DirecTV and cable boxes to schedule games, group TVs, and switch between events in seconds.',
   ctaLabel: 'See products',
   heroImage: '/assets/small-bar.jpg',
   testimonials,
@@ -44,6 +44,19 @@ const loadHomeProps = async () => ({
     },
   ],
   clients: loadClientLogos(),
+  installSpotlight: {
+    title: 'Installed in minutes, not days',
+    body: 'Adding TSR to your bar or restaurant is simple: snap the cable box into the TSR bracket, plug in the receiver, and you’re done. No cable runs, no rewiring — every cable stays right at the TV and cable box. Perfect for DirecTV and sports bars with a cable box at every TV.',
+    points: [
+      'No cable runs — all cables stay at the TV/cable box area',
+      'Brackets mount the cable box on or around the TV',
+      'Works with your existing DirecTV or cable boxes',
+    ],
+    video: '/assets/install-videos/installing-cable-box.mp4',
+    videoLabel: 'Inserting a cable box into the TSR bracket',
+    ctaPrimary: { label: 'See the full install guide', href: '/install' },
+    ctaSecondary: { label: 'Shop hardware', href: '/products' },
+  },
 });
 
 export class TsrHome extends HTMLElement {

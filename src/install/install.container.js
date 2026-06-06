@@ -9,7 +9,7 @@ const loadInstall = async () => ({
       video: null,
       instructions: [
         'Confirm you received one TSR Receiver per cable box.',
-        'Verify each receiver has a power adapter and IR emitter cable.',
+        'Verify each receiver has a power adapter.',
       ],
       note: 'Missing anything? Email support@thesportsremote.com before proceeding.',
     },

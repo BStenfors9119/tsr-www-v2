@@ -57,10 +57,30 @@ export class TsrApp extends HTMLElement {
 
   render() {
     const route = matchRoute(window.location.pathname);
-    document.title = route.label
-      ? `${route.label} | The Sports Remote`
-      : 'The Sports Remote';
+    document.title = route.title
+      ? `${route.title} | The Sports Remote`
+      : route.label
+        ? `${route.label} | The Sports Remote`
+        : 'The Sports Remote';
+    this._updateMeta(route);
     this.innerHTML = renderShell(route.tag);
+  }
+
+  _updateMeta(route) {
+    if (route.description) {
+      const meta = document.querySelector('meta[name="description"]');
+      if (meta) meta.setAttribute('content', route.description);
+    }
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute(
+      'href',
+      `https://www.thesportsremote.com${route.path === '/' ? '/' : route.path}`,
+    );
   }
 }
 

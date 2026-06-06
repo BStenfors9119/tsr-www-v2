@@ -44,6 +44,16 @@ module.exports = {
           to: 'assets',
           noErrorOnMissing: true,
         },
+        {
+          from: path.resolve(__dirname, 'public/robots.txt'),
+          to: 'robots.txt',
+          noErrorOnMissing: true,
+        },
+        {
+          from: path.resolve(__dirname, 'public/sitemap.xml'),
+          to: 'sitemap.xml',
+          noErrorOnMissing: true,
+        },
       ],
     }),
     new webpack.DefinePlugin(clientEnv),
