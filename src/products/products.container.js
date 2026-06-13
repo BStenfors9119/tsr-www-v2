@@ -58,7 +58,7 @@ const loadProducts = async () => ({
       name: 'TSR Receiver (hardware)',
       description:
         'A replacement or standalone TSR receiver. Includes the receiver with IR emitter, power cable, and HDMI cable.',
-      price: '$50',
+      price: '$75',
       buyUrl: STRIPE_PAYMENT_LINKS.tsrReceiver,
     },
   ],

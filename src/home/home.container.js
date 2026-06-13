@@ -22,6 +22,37 @@ const loadClientLogos = () => {
     });
 };
 
+// Captions keyed by screenshot base filename. Any file dropped into
+// assets/pwa-screenshots/ is picked up automatically (sorted by filename —
+// prefix with 01-, 02-, … to control order); unknown names fall back to a
+// humanized version of the filename.
+const SCREENSHOT_CAPTIONS = {
+  remote: 'Change channels, sources, and power from any device',
+  location: 'Group every TV in the venue and control them together',
+  automation: 'Schedule games ahead of time so nothing gets missed',
+};
+
+const loadPwaScreenshots = () => {
+  const ctx = import.meta.webpackContext('../../assets/pwa-screenshots', {
+    recursive: false,
+    regExp: /\.(png|jpe?g|webp|gif)$/i,
+  });
+  return ctx
+    .keys()
+    .sort()
+    .map((key) => {
+      const filename = key.replace(/^\.\//, '');
+      const base = filename.replace(/\.[^.]+$/, '').replace(/^\d+[-_]/, '');
+      // Raw device screenshot names (Screenshot_2026..., IMG_..., etc.) make
+      // useless captions, so leave them blank unless mapped above.
+      const isRawCapture = /^(screenshot|img|photo|pxl)[-_ ]?\d/i.test(base);
+      return {
+        src: ctx(key),
+        label: SCREENSHOT_CAPTIONS[base] ?? (isRawCapture ? '' : humanize(filename)),
+      };
+    });
+};
+
 const loadHomeProps = async () => ({
   headline: 'Change the channel. Faster.',
   subhead:
@@ -44,18 +75,62 @@ const loadHomeProps = async () => ({
     },
   ],
   clients: loadClientLogos(),
-  installSpotlight: {
-    title: 'Installed in minutes, not days',
-    body: 'Adding TSR to your bar or restaurant is simple: snap the cable box into the TSR bracket, plug in the receiver, and you’re done. No cable runs, no rewiring — every cable stays right at the TV and cable box. Perfect for DirecTV and sports bars with a cable box at every TV.',
-    points: [
-      'No cable runs — all cables stay at the TV/cable box area',
-      'Brackets mount the cable box on or around the TV',
-      'Works with your existing DirecTV or cable boxes',
+  spotlight: {
+    ariaLabel: 'What TSR can do',
+    tabs: [
+      {
+        label: 'Easy Installs',
+        title: 'Installed in minutes, not days',
+        body: 'Adding TSR to your bar or restaurant is simple: snap the cable box into the TSR bracket, plug in the receiver, and you’re done. No cable runs, no rewiring — every cable stays right at the TV and cable box. Perfect for DirecTV and sports bars with a cable box at every TV.',
+        points: [
+          'No cable runs — all cables stay at the TV/cable box area',
+          'Brackets mount the cable box on or around the TV',
+          'Works with your existing DirecTV or cable boxes',
+        ],
+        media: {
+          type: 'video',
+          src: '/assets/install-videos/installing-cable-box.mp4',
+          label: 'Inserting a cable box into the TSR bracket',
+        },
+        actions: [
+          {
+            label: 'See the full install guide',
+            href: '/install',
+            cta: 'home_install_guide',
+          },
+          { label: 'Shop hardware', href: '/products', cta: 'home_shop_hardware' },
+        ],
+      },
+      {
+        label: 'Powerful Control',
+        title: 'Control every TV from one screen',
+        body: 'Once it’s installed, the TSR app puts your whole venue at your fingertips: group TVs by section, schedule games ahead of time, and switch channels in seconds — from any phone, tablet, or browser. The same app your staff uses, ready to try right now.',
+        points: [
+          'Group TVs by section and control them together',
+          'Schedule games ahead so nothing gets missed',
+          'Change channels from any device — no IR remote needed',
+        ],
+        media: {
+          gallery: loadPwaScreenshots(),
+        },
+        actions: [
+          {
+            label: 'Launch the TSR app',
+            href: 'https://tsr.sodapopsystems.com',
+            cta: 'home_spotlight_try_pwa',
+            external: true,
+          },
+          { label: 'See products', href: '/products', cta: 'home_spotlight_products' },
+        ],
+      },
     ],
-    video: '/assets/install-videos/installing-cable-box.mp4',
-    videoLabel: 'Inserting a cable box into the TSR bracket',
-    ctaPrimary: { label: 'See the full install guide', href: '/install' },
-    ctaSecondary: { label: 'Shop hardware', href: '/products' },
+  },
+  pwaCallout: {
+    eyebrow: 'See it in action',
+    title: 'Try the TSR app yourself',
+    body: 'Take the same web app your staff uses for a spin — group TVs, schedule games, and change channels right from your browser. No download required.',
+    ctaLabel: 'Launch the TSR app',
+    href: 'https://tsr.sodapopsystems.com',
   },
 });
 
