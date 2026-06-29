@@ -73,8 +73,19 @@ const loadHomeProps = async () => ({
       title: 'Mobile control',
       body: 'Your whole staff can change channels from their phones, no IR remote needed.',
     },
+    {
+      title: 'Printable channel guide',
+      body: 'See what’s playing today on DirecTV at a glance — a printable, up-to-the-day guide you can post behind the bar or at the host stand. Available free at tsr.SodaPopSystems.com.',
+    },
   ],
   clients: loadClientLogos(),
+  prismTeaser: {
+    eyebrow: 'New — now in early access',
+    title: 'Meet Prism — wireless live sports on every TV',
+    body: 'Beam live games over your venue’s network straight to your TSR receivers — no new cable box, no wiring to each screen. Put one game on every TV or a different game in every section, and add another screen — even a roving one — by attaching one more receiver. Now rolling out to select venues.',
+    ctaLabel: 'Learn about Prism',
+    href: '/prism',
+  },
   spotlight: {
     ariaLabel: 'What TSR can do',
     tabs: [

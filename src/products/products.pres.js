@@ -7,10 +7,23 @@ const renderBuyAction = (p) =>
          data-cta="buy_${p.name.toLowerCase().replace(/[^a-z0-9]+/g, '_')}">Buy now — ${p.price}</a>`
     : `<p class="product__example">Available soon — use the inquiry form below to order.</p>`;
 
-export const renderProducts = ({ package: pkg, hardware }) => `
+export const renderProducts = ({ prism, package: pkg, hardware }) => `
   <section class="tsr-container" style="padding:2.5rem 1.25rem;">
     <h1>Products</h1>
     <p>Hardware and software that powers TV control at your venue.</p>
+    ${
+      prism
+        ? `
+    <article class="product product--prism">
+      ${prism.eyebrow ? `<p class="product__eyebrow">${prism.eyebrow}</p>` : ''}
+      <h3>${prism.name}</h3>
+      <p>${prism.description}</p>
+      <div class="product__action">
+        <a class="tsr-button" href="${prism.href}" data-link data-cta="${prism.cta}">${prism.ctaLabel}</a>
+      </div>
+    </article>`
+        : ''
+    }
     ${
       pkg
         ? `
@@ -84,6 +97,25 @@ export const renderProducts = ({ package: pkg, hardware }) => `
       width: 100%;
       box-sizing: border-box;
       text-align: center;
+    }
+    .product--prism {
+      margin-top: 1.5rem;
+      border-color: var(--tsr-accent, #2563eb);
+      border-width: 2px;
+      background: linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--tsr-accent, #2563eb) 8%, var(--tsr-surface)),
+        var(--tsr-surface)
+      );
+    }
+    .product--prism h3 { font-size: 1.35rem; }
+    .product__eyebrow {
+      margin: 0 0 0.35rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--tsr-accent, #2563eb);
     }
     .product--package {
       margin-top: 1.5rem;

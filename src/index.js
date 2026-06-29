@@ -9,6 +9,8 @@ import './components/footer/footer.js';
 import './components/inquiry-form/inquiry-form.js';
 
 import './home/home.container.js';
+import './game-sheets/game-sheets.container.js';
+import './prism/prism.container.js';
 import './products/products.container.js';
 import './services/services.container.js';
 import './about/about.container.js';

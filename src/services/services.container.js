@@ -17,6 +17,12 @@ const loadServices = async () => ({
       description: '24/7 support coverage for game-day issues.',
       price: 'From $50/mo',
     },
+    {
+      name: 'Printable DirecTV channel guide',
+      description:
+        'A printable guide of what’s playing today on DirecTV for your venue — post it behind the bar or at the host stand. Available free at tsr.SodaPopSystems.com.',
+      price: 'Free',
+    },
   ],
 });
 

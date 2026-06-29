@@ -96,6 +96,7 @@ export const renderHome = ({
   features,
   clients,
   spotlight,
+  prismTeaser,
   pwaCallout,
 }) => {
   const items =
@@ -136,7 +137,10 @@ export const renderHome = ({
     <div class="tsr-container hero__inner">
       <h1>${headline}</h1>
       <p class="hero__sub">${subhead}</p>
-      <a href="/products" data-link data-cta="hero_see_products" class="tsr-button">${ctaLabel}</a>
+      <div class="hero__ctas">
+        <a href="/products" data-link data-cta="hero_see_products" class="tsr-button">${ctaLabel}</a>
+        <a href="/free-channel-sheets" data-link data-cta="hero_free_game_sheets" class="tsr-button hero__free-cta">Print FREE Channel Sheets</a>
+      </div>
     </div>
   </section>
 
@@ -153,6 +157,22 @@ export const renderHome = ({
             ? `<div class="testimonials__dots" role="tablist">${dots}</div>`
             : ''
         }
+      </div>
+    </section>`
+      : ''
+  }
+
+  ${
+    prismTeaser
+      ? `
+    <section class="prism-teaser">
+      <div class="tsr-container prism-teaser__inner">
+        <div class="prism-teaser__copy">
+          <p class="prism-teaser__eyebrow">${escapeHtml(prismTeaser.eyebrow)}</p>
+          <h2>${escapeHtml(prismTeaser.title)}</h2>
+          <p class="prism-teaser__body">${escapeHtml(prismTeaser.body)}</p>
+        </div>
+        <a href="${prismTeaser.href}" data-link data-cta="home_prism_teaser" class="tsr-button prism-teaser__cta">${escapeHtml(prismTeaser.ctaLabel)}</a>
       </div>
     </section>`
       : ''
@@ -265,6 +285,9 @@ export const renderHome = ({
     }
     .hero h1 { font-size: clamp(2rem, 4vw, 3.25rem); margin: 0 0 1rem; color: #fff; }
     .hero__sub { font-size: 1.125rem; color: #d4d4d8; max-width: 640px; margin: 0 0 1.5rem; }
+    .hero__ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+    .hero__free-cta { box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.85); }
+    .hero__free-cta:hover { box-shadow: 0 0 0 2px #fff; }
     .testimonials { padding: 3rem 0; }
     .testimonials__track {
       list-style: none;
@@ -573,6 +596,39 @@ export const renderHome = ({
     }
     .feature h3 { margin: 0 0 0.5rem; }
     .feature p { margin: 0; color: var(--tsr-muted); }
+
+    .prism-teaser {
+      padding: 3rem 0;
+      background: linear-gradient(90deg, #042316 0%, #0c3622 48%, #3f3f46 80%, #71717a 150%);
+      color: #fff;
+      border-top: 1px solid var(--tsr-border);
+      border-bottom: 1px solid var(--tsr-border);
+    }
+    .prism-teaser__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .prism-teaser__copy { flex: 1 1 420px; }
+    .prism-teaser__eyebrow {
+      margin: 0 0 0.35rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #d4d4d8;
+    }
+    .prism-teaser__copy h2 { margin: 0 0 0.5rem; color: #fff; }
+    .prism-teaser__body { margin: 0; max-width: 560px; color: rgba(255, 255, 255, 0.9); }
+    .prism-teaser__cta {
+      flex: 0 0 auto;
+      background: #fff;
+      color: #18181b;
+      border-color: #fff;
+    }
+    .prism-teaser__cta:hover { background: #e4e4e7; }
 
     .pwa-callout {
       padding: 3rem 0;

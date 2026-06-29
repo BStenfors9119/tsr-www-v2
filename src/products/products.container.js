@@ -10,6 +10,15 @@ const STRIPE_PAYMENT_LINKS = {
 };
 
 const loadProducts = async () => ({
+  prism: {
+    eyebrow: 'New — now in early access',
+    name: 'Prism',
+    description:
+      'Beam live games wirelessly over your venue’s network to your TSR receivers — the same game on every screen or a different game per section, with no new cable box wired to each TV. Add a screen, even a roving one, by attaching another receiver. Now rolling out to select venues.',
+    ctaLabel: 'Learn about Prism',
+    href: '/prism',
+    cta: 'products_prism_learn',
+  },
   package: {
     name: 'The Starting Lineup',
     description:

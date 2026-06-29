@@ -8,12 +8,28 @@ export const routes = [
       'The Sports Remote (TSR) — TV and channel control for sports bars. Works with DirecTV and cable boxes, one box per TV, no cable runs. Schedule games, group TVs, and change channels from your phone.',
   },
   {
+    path: '/free-channel-sheets',
+    tag: 'tsr-game-sheets',
+    label: 'Channel Sheets',
+    title: 'Free Printable Channel Sheets for Sports Bars',
+    description:
+      'Print a free daily channel sheet for your sports bar — every game on today with the exact channel numbers for your venue’s DirecTV or cable lineup. Pick the packages you carry so only your channels show. No hardware, no credit card; the same TSR app changes the channels when you’re ready.',
+  },
+  {
     path: '/products',
     tag: 'tsr-products',
     label: 'Products',
     title: 'Products — Receivers, Brackets & TV Control',
     description:
       'TSR receivers, DirecTV H24/H25 brackets, and Motorola cable box brackets. Buy hardware outright or pair with the TSR service for full channel control at your venue.',
+  },
+  {
+    path: '/prism',
+    tag: 'tsr-prism',
+    label: 'Prism',
+    title: 'Prism — Beam Live Sports to Every TV',
+    description:
+      'Prism beams live games wirelessly over your venue’s network to your TSR receivers — the same game on every TV or a different game per section, no extra cable box per TV. Now in early access; book a demo for your bar or restaurant.',
   },
   {
     path: '/services',
@@ -36,8 +52,7 @@ export const routes = [
     tag: 'tsr-contact',
     label: 'Contact Us',
     title: 'Contact The Sports Remote',
-    description:
-      'Get in touch about TSR for your bar or restaurant — demos, pricing, and support.',
+    description: 'Get in touch about TSR for your bar or restaurant — demos, pricing, and support.',
   },
   { path: '/login', tag: 'tsr-login', label: 'Login' },
   {
