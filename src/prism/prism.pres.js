@@ -37,7 +37,10 @@ export const renderPrism = ({
           .map(
             (f) => `
           <div class="prism-feature">
-            <h3>${escapeHtml(f.title)}</h3>
+            <h3>
+              ${escapeHtml(f.title)}
+              ${f.badge ? `<span class="prism-feature__badge">${escapeHtml(f.badge)}</span>` : ''}
+            </h3>
             <p>${escapeHtml(f.body)}</p>
             ${
               f.action
@@ -121,7 +124,24 @@ export const renderPrism = ({
       border: 1px solid var(--tsr-border);
       border-radius: var(--tsr-radius);
     }
-    .prism-feature h3 { margin: 0 0 0.5rem; }
+    .prism-feature h3 {
+      margin: 0 0 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .prism-feature__badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #042316;
+      background: #facc15;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
     .prism-feature p { margin: 0; color: var(--tsr-muted); }
     .prism-feature__cta { margin-top: 1rem; }
     .prism-early {

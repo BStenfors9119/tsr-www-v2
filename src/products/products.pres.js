@@ -41,6 +41,9 @@ export const renderProducts = ({ prism, package: pkg, hardware }) => `
           )
           .join('')}
       </ul>
+      <div class="product__action package__action">
+        <tsr-venue-request label="Request The Starting Lineup"></tsr-venue-request>
+      </div>
     </article>`
         : ''
     }
@@ -131,6 +134,9 @@ export const renderProducts = ({ prism, package: pkg, hardware }) => `
     .package__includes .product__example {
       display: block;
       margin-top: 0.15rem;
+    }
+    .package__action {
+      margin-top: 1.5rem;
     }
   </style>
 `;

@@ -25,6 +25,7 @@ const loadPrismProps = async () => ({
     },
     {
       title: 'Special Events',
+      badge: 'Coming soon',
       body: 'Hosting a wedding, party, or private event? Rent Prism to put the big game — or your own custom content — on every screen, with no permanent install and no cable runs. Beam it wirelessly to as many TVs as your space needs.',
       action: { label: 'Contact Us', href: '/contact', cta: 'prism_special_events_contact' },
     },

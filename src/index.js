@@ -7,6 +7,7 @@ import './app.js';
 import './components/header/header.js';
 import './components/footer/footer.js';
 import './components/inquiry-form/inquiry-form.js';
+import './components/venue-request/venue-request.js';
 
 import './home/home.container.js';
 import './game-sheets/game-sheets.container.js';

@@ -9,6 +9,13 @@ if (fs.existsSync(envPath)) {
   require('dotenv').config({ path: envPath });
 }
 
+// Turnstile site key for the contact / venue-request forms.
+// Empty during `webpack serve` (dev) so the captcha widget is skipped locally;
+// the real key is injected for production builds. Override via TURNSTILE_SITE_KEY.
+const isDevServer = !!process.env.WEBPACK_SERVE;
+const turnstileSiteKey =
+  process.env.TURNSTILE_SITE_KEY ?? (isDevServer ? '' : '0x4AAAAAADOtRgkce3xPhltT');
+
 const clientEnv = {
   'process.env.FIREBASE_API_KEY': JSON.stringify(process.env.FIREBASE_API_KEY ?? ''),
   'process.env.FIREBASE_AUTH_DOMAIN': JSON.stringify(process.env.FIREBASE_AUTH_DOMAIN ?? ''),
@@ -36,6 +43,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'public/index.html'),
       inject: 'body',
+      templateParameters: { turnstileSiteKey },
     }),
     new CopyWebpackPlugin({
       patterns: [
