@@ -97,6 +97,7 @@ export const renderHome = ({
   clients,
   spotlight,
   prismTeaser,
+  snapTeaser,
   pwaCallout,
 }) => {
   const items =
@@ -124,12 +125,16 @@ export const renderHome = ({
     .join('');
 
   const clientItems = (clients ?? [])
-    .map(
-      (c) => `
+    .map((c) => {
+      const img = `<img src="${c.logo}" alt="${c.name}" loading="lazy" />`;
+      const inner = c.href
+        ? `<a href="${c.href}" target="_blank" rel="noopener" data-cta="home_client_logo" aria-label="${escapeHtml(c.name)} — visit website">${img}</a>`
+        : img;
+      return `
         <div class="clients__item">
-          <img src="${c.logo}" alt="${c.name}" loading="lazy" />
-        </div>`,
-    )
+          ${inner}
+        </div>`;
+    })
     .join('');
 
   return `
@@ -237,6 +242,29 @@ export const renderHome = ({
           </div>`;
           })
           .join('')}
+      </div>
+    </section>`
+      : ''
+  }
+
+  ${
+    snapTeaser
+      ? `
+    <section class="snap-teaser">
+      <div class="tsr-container snap-teaser__inner">
+        <div class="snap-teaser__copy">
+          <p class="snap-teaser__eyebrow">${escapeHtml(snapTeaser.eyebrow)}</p>
+          <h2>${escapeHtml(snapTeaser.title)}</h2>
+          <p class="snap-teaser__body">${escapeHtml(snapTeaser.body)}</p>
+          ${
+            snapTeaser.steps && snapTeaser.steps.length
+              ? `<ol class="snap-teaser__steps">${snapTeaser.steps
+                  .map((s) => `<li>${escapeHtml(s)}</li>`)
+                  .join('')}</ol>`
+              : ''
+          }
+        </div>
+        <a href="${snapTeaser.href}" target="_blank" rel="noopener" data-cta="home_snap_teaser" class="tsr-button snap-teaser__cta">${escapeHtml(snapTeaser.ctaLabel)}</a>
       </div>
     </section>`
       : ''
@@ -630,6 +658,47 @@ export const renderHome = ({
     }
     .prism-teaser__cta:hover { background: #e4e4e7; }
 
+    .snap-teaser {
+      padding: 3rem 0;
+      background: linear-gradient(90deg, #1e1b4b 0%, #3730a3 46%, #6d28d9 78%, #a78bfa 150%);
+      color: #fff;
+      border-top: 1px solid var(--tsr-border);
+      border-bottom: 1px solid var(--tsr-border);
+    }
+    .snap-teaser__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .snap-teaser__copy { flex: 1 1 420px; }
+    .snap-teaser__eyebrow {
+      margin: 0 0 0.35rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #ddd6fe;
+    }
+    .snap-teaser__copy h2 { margin: 0 0 0.5rem; color: #fff; }
+    .snap-teaser__body { margin: 0; max-width: 560px; color: rgba(255, 255, 255, 0.9); }
+    .snap-teaser__steps {
+      margin: 1rem 0 0;
+      padding-left: 1.25rem;
+      max-width: 560px;
+      display: grid;
+      gap: 0.35rem;
+      color: rgba(255, 255, 255, 0.92);
+    }
+    .snap-teaser__cta {
+      flex: 0 0 auto;
+      background: #fff;
+      color: #3730a3;
+      border-color: #fff;
+    }
+    .snap-teaser__cta:hover { background: #ede9fe; }
+
     .pwa-callout {
       padding: 3rem 0;
       background: var(--tsr-accent, #2563eb);
@@ -675,7 +744,7 @@ export const renderHome = ({
       gap: 5rem;
       width: max-content;
       align-items: center;
-      animation: tsr-marquee 45s linear infinite;
+      animation: tsr-marquee 38s linear infinite;
     }
     .clients__viewport:hover .clients__track {
       animation-play-state: paused;
@@ -689,6 +758,18 @@ export const renderHome = ({
     }
     .clients__item.is-transparent {
       padding: 0 1.25rem;
+      border-radius: var(--tsr-radius);
+    }
+    .clients__item a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .clients__item a:hover { opacity: 0.75; transform: scale(1.04); }
+    .clients__item a:focus-visible {
+      outline: 2px solid var(--tsr-accent);
+      outline-offset: 4px;
       border-radius: var(--tsr-radius);
     }
     .clients__item img {

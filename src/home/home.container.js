@@ -8,6 +8,22 @@ const humanize = (filename) =>
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
     .join(' ');
 
+// Exact display/alt-text names keyed by base filename, for cases where the
+// humanized filename gets the casing wrong (e.g. acronyms like "BBQ").
+const CLIENT_LOGO_NAMES = {
+  'jane-bond-bbq': 'Jane Bond BBQ',
+};
+
+// Optional outbound links keyed by base filename — the logo becomes a link to
+// the client's website when present.
+const CLIENT_LOGO_URLS = {
+  'jane-bond-bbq': 'https://janebondbbq.com',
+  'knotty-barrel-pq': 'https://www.knottybarrelpq.com',
+  'players-in-san-marcos': 'https://sanmarcos.playerssportsbar.com',
+  'players-kearny-mesa': 'https://kearnymesa.playerssportsbar.com',
+  'poway-social-house': 'https://powaysocialhouse.com',
+};
+
 const loadClientLogos = () => {
   const ctx = import.meta.webpackContext('../../assets/client-logos', {
     recursive: false,
@@ -18,7 +34,12 @@ const loadClientLogos = () => {
     .sort()
     .map((key) => {
       const filename = key.replace(/^\.\//, '');
-      return { name: humanize(filename), logo: ctx(key) };
+      const base = filename.replace(/\.[^.]+$/, '');
+      return {
+        name: CLIENT_LOGO_NAMES[base] ?? humanize(filename),
+        logo: ctx(key),
+        href: CLIENT_LOGO_URLS[base],
+      };
     });
 };
 
@@ -85,6 +106,18 @@ const loadHomeProps = async () => ({
     body: 'Beam live games over your venue’s network straight to your TSR receivers — no new cable box, no wiring to each screen. Put one game on every TV or a different game in every section, and add another screen — even a roving one — by attaching one more receiver. Now rolling out to select venues.',
     ctaLabel: 'Learn about Prism',
     href: '/prism',
+  },
+  snapTeaser: {
+    eyebrow: 'New',
+    title: 'Snap ’n Sync — point, shoot, sync every TV',
+    body: 'See a game you want on the wall? Snap a photo of any TV in your venue and TSR recognizes the matchup, finds the exact channel for your lineup, and syncs it to your other screens in seconds — no channel numbers to look up, no remote required.',
+    steps: [
+      'Snap a photo of the TV showing the game you want',
+      'TSR identifies the matchup and your channel automatically',
+      'Sync that game to the rest of your TVs in one tap',
+    ],
+    ctaLabel: 'Try it in the app',
+    href: 'https://tsr.sodapopsystems.com',
   },
   spotlight: {
     ariaLabel: 'What TSR can do',
