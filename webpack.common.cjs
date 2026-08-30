@@ -58,6 +58,14 @@ module.exports = {
           noErrorOnMissing: true,
         },
         {
+          // Standalone hero-video pages. They are self-contained documents, not
+          // part of the SPA bundle, so they are copied through verbatim.
+          // Generated from _marketing/ by _scripts/sync-hero-videos.js.
+          from: path.resolve(__dirname, 'public/videos'),
+          to: 'videos',
+          noErrorOnMissing: true,
+        },
+        {
           from: path.resolve(__dirname, 'public/sitemap.xml'),
           to: 'sitemap.xml',
           noErrorOnMissing: true,

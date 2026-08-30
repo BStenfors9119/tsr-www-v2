@@ -1,5 +1,8 @@
 User-agent: *
 Allow: /
 Disallow: /login
+Disallow: /hero-vid-venue
+Disallow: /hero-vid-consumer
+Disallow: /videos/
 
 Sitemap: https://www.thesportsremote.com/sitemap.xml
