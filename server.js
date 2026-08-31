@@ -23,6 +23,7 @@ app.use(express.static(path.join(__dirname, 'dist')));
 // routes, so they must be answered before the catch-all hands back index.html.
 const HERO_VIDEOS = {
   '/hero-vid-venue': 'hero-vid-venue.html',
+  '/hero-vid-venue-phone': 'hero-vid-venue-phone.html',
   '/hero-vid-consumer': 'hero-vid-consumer.html',
 };
 

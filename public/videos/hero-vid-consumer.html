@@ -45,8 +45,9 @@
         background:repeating-linear-gradient(180deg,rgba(255,255,255,.045) 0 1px,transparent 1px 4px)}
 
       /* ---------- persistent corner bug ---------- */
-      .bug{position:absolute;top:56px;left:56px;z-index:40;display:flex;align-items:center;gap:14px;
-        opacity:0;transform:translateX(-16px);transition:opacity .3s,transform .3s}
+      /* sits bottom-right, so it slides in from the right edge it hugs */
+      .bug{position:absolute;bottom:56px;right:56px;z-index:40;display:flex;align-items:center;gap:14px;
+        opacity:0;transform:translateX(16px);transition:opacity .3s,transform .3s}
       .bug.on{opacity:1;transform:none}
       /* real TSR mark, inlined from pwa/public/tsr-logo-green.svg */
       .bug__logo{width:56px;height:56px;flex:none;fill:var(--accent-hi);display:block}
@@ -73,7 +74,7 @@
       @keyframes wipe{to{width:380px}}
 
       /* ---------- device ---------- */
-      .device{position:absolute;left:50%;top:300px;width:640px;height:1310px;z-index:20;
+      .device{position:absolute;left:50%;top:370px;width:640px;height:1310px;z-index:20;
         margin-left:-320px;border-radius:66px;background:#050C08;
         border:12px solid #1B2A21;box-shadow:0 50px 120px rgba(0,0,0,.75), 0 0 0 2px #0B140F inset;
         opacity:0;transform:translateY(46px) scale(.97);visibility:hidden}
@@ -262,8 +263,9 @@
       .hit__g{font-family:var(--ui);font-weight:700;font-size:34px;margin-top:8px}
       .hit__c{font-family:var(--ui);font-size:25px;color:var(--muted);margin-top:6px}
 
-      /* ---------- lower third ---------- */
-      .l3{position:absolute;left:0;bottom:190px;z-index:30;display:flex;align-items:stretch;
+      /* ---------- upper third ----------
+         Rides at the top-left; the phone below is positioned to clear it. */
+      .l3{position:absolute;left:0;top:40px;z-index:30;display:flex;align-items:stretch;
         max-width:930px;opacity:0}
       .scene.on .l3{animation:l3in .44s .28s cubic-bezier(.2,.9,.2,1) forwards}
       @keyframes l3in{from{opacity:0;transform:translateX(-70px)}to{opacity:1;transform:none}}
@@ -459,7 +461,7 @@
       </div>
     </div>
 
-    <!-- lower thirds live in their own scene layers so they cut with the screens -->
+    <!-- title cards live in their own scene layers so they cut with the screens -->
     <section class="scene" data-scene="1">
       <div class="l3"><div class="l3__key"></div><div class="l3__body">
         <p class="l3__k">Set up once</p><h2 class="l3__t">Pick your<br>provider.</h2>

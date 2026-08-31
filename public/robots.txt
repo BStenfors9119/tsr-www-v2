@@ -2,6 +2,7 @@ User-agent: *
 Allow: /
 Disallow: /login
 Disallow: /hero-vid-venue
+Disallow: /hero-vid-venue-phone
 Disallow: /hero-vid-consumer
 Disallow: /videos/
 
