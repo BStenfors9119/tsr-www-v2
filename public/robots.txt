@@ -4,6 +4,9 @@ Disallow: /login
 Disallow: /hero-vid-venue
 Disallow: /hero-vid-venue-phone
 Disallow: /hero-vid-consumer
+Disallow: /hero-vid-venue-phone-v2
+Disallow: /hero-vid-venue-v2
+Disallow: /hero-vid-consumer-v2
 Disallow: /videos/
 
 Sitemap: https://www.thesportsremote.com/sitemap.xml

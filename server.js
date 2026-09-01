@@ -25,6 +25,9 @@ const HERO_VIDEOS = {
   '/hero-vid-venue': 'hero-vid-venue.html',
   '/hero-vid-venue-phone': 'hero-vid-venue-phone.html',
   '/hero-vid-consumer': 'hero-vid-consumer.html',
+  '/hero-vid-venue-phone-v2': 'hero-vid-venue-phone-v2.html',
+  '/hero-vid-venue-v2': 'hero-vid-venue-v2.html',
+  '/hero-vid-consumer-v2': 'hero-vid-consumer-v2.html',
 };
 
 Object.entries(HERO_VIDEOS).forEach(([route, file]) => {
