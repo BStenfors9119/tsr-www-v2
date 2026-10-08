@@ -11,7 +11,7 @@ const loadInstall = async () => ({
         'Confirm you received one TSR Receiver per cable box.',
         'Verify each receiver has a power adapter.',
       ],
-      note: 'Missing anything? Email support@thesportsremote.com before proceeding.',
+      note: 'Missing anything? Email admin@sodapopsystems.com before proceeding.',
     },
     {
       title: 'Plugging the Ubiquiti Dream Router 7 into power and internet',
@@ -25,9 +25,9 @@ const loadInstall = async () => ({
             number: 1,
             label: 'Plug in the ethernet (WAN) cable',
             x: 58,
-            y: 55.5,
+            y: 51.6,
             width: 12,
-            height: 6.5,
+            height: 4.3,
           },
           {
             number: 2,
@@ -55,7 +55,7 @@ const loadInstall = async () => ({
       instructions: [
         'Find the Ubiquiti Dream Router 7 — a tubular device about the size of a 2 litre bottle of soda, with a tiny screen on the front.',
         'Plug it in for power: take the included white power cord (one end is a small standard two-pronged wall plug; the other end has two small holes). Line those two holes up with the two small metal prongs sticking out of the back of the Dream Router and push the cable straight on until it seats. Then plug the two-pronged end into a wall outlet. The screen on the front should light up within a few seconds.',
-        'Plug it in for internet: on the back of the router, find the port labeled "WAN" (sometimes "Internet", or shown with a small globe icon). It is usually the leftmost network port and may be a different color than the ones next to it.',
+        'Plug it in for internet: on the back of the router, find the port labeled "WAN" (sometimes "Internet", or shown with a small globe icon). The network ports are stacked in a column of four — the WAN port is the 4th one down from the top, the bottom of the four, sitting just above a larger, differently shaped port.',
         'Take the ethernet cable that came with the router. It looks like a thick phone cord with a clear plastic clip on each end.',
         'Push one end of the ethernet cable firmly into the WAN port until you hear a soft click.',
         'Run the other end of the cable to your existing internet router or network switch — that is the device your internet provider gave you, or the one all the other internet cables in the building plug into. Push the cable into any open numbered port (often labeled "LAN 1", "LAN 2", etc., or just "1", "2", "3", "4") until it clicks.',

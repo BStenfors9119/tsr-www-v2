@@ -14,7 +14,7 @@ const loadProducts = async () => ({
     eyebrow: 'New — now in early access',
     name: 'Prism',
     description:
-      'Beam live games wirelessly over your venue’s network to your TSR receivers — the same game on every screen or a different game per section, with no new cable box wired to each TV. Add a screen, even a roving one, by attaching another receiver. Now rolling out to select venues.',
+      'Wirelessly split your set-top boxes across your TSR receivers — the same content on several screens or something different per section, with no new cable box wired to each TV. Add your own trivia scoreboard, menu boards, and split screens, and add a screen, even a roving one, by attaching another receiver. Now rolling out to select venues.',
     ctaLabel: 'Learn about Prism',
     href: '/prism',
     cta: 'products_prism_learn',

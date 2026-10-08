@@ -27,9 +27,9 @@ export const routes = [
     path: '/prism',
     tag: 'tsr-prism',
     label: 'Prism',
-    title: 'Prism — Beam Live Sports to Every TV',
+    title: 'Prism — Wirelessly Share Content to Any TV',
     description:
-      'Prism beams live games wirelessly over your venue’s network to your TSR receivers — the same game on every TV or a different game per section, no extra cable box per TV. Now in early access; book a demo for your bar or restaurant.',
+      'Prism wirelessly splits your set-top boxes across your TSR receivers and adds trivia scoreboards, menu boards, and split screens — no extra cable box per TV. Now in early access; book a demo for your bar or restaurant.',
   },
   {
     path: '/services',

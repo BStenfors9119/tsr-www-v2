@@ -102,8 +102,8 @@ const loadHomeProps = async () => ({
   clients: loadClientLogos(),
   prismTeaser: {
     eyebrow: 'New — now in early access',
-    title: 'Meet Prism — wireless live sports on every TV',
-    body: 'Beam live games over your venue’s network straight to your TSR receivers — no new cable box, no wiring to each screen. Put one game on every TV or a different game in every section, and add another screen — even a roving one — by attaching one more receiver. Now rolling out to select venues.',
+    title: 'Meet Prism — wirelessly share content to any TV',
+    body: 'Wirelessly split your set-top boxes across your TSR receivers — no new cable box, no wiring to each screen. Then add your own trivia scoreboard, menu boards, and split screens, all run from a phone. Now rolling out to select venues.',
     ctaLabel: 'Learn about Prism',
     href: '/prism',
   },

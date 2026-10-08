@@ -744,7 +744,7 @@ export const renderHome = ({
       gap: 5rem;
       width: max-content;
       align-items: center;
-      animation: tsr-marquee 38s linear infinite;
+      animation: tsr-marquee 10s linear infinite;
     }
     .clients__viewport:hover .clients__track {
       animation-play-state: paused;
