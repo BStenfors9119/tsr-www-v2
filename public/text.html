@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#07100B" />
+    <!-- Reached from email links only: keep it out of the index and send no referrer. -->
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="referrer" content="no-referrer" />
+    <link rel="icon" type="image/svg+xml" href="/videos/tsr-icon.svg" />
+    <title>Text The Sports Remote</title>
+    <!--
+      Gmail removes sms: links from emails, so emails link here and this page opens the text.
+      The sender's details arrive in the URL fragment (/text#name=Sam&email=sam@example.com),
+      which browsers never send to the server, so they stay out of server logs.
+    -->
+    <style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        background: #07100b;
+        color: #ffffff;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        text-align: center;
+      }
+      main { width: 100%; max-width: 380px; }
+      img { width: 56px; height: 56px; margin-bottom: 18px; }
+      h1 { font-size: 24px; line-height: 30px; margin-bottom: 10px; }
+      p { font-size: 16px; line-height: 24px; color: #dcebe2; }
+      .button {
+        display: block;
+        margin: 22px 0;
+        padding: 14px 20px;
+        border-radius: 10px;
+        background: #16a34a;
+        color: #ffffff;
+        font-size: 17px;
+        font-weight: 700;
+        text-decoration: none;
+      }
+      .number { font-size: 22px; font-weight: 700; color: #ffffff; margin-top: 4px; }
+      .contact { margin-top: 22px; font-size: 14px; }
+      .contact a { color: #86efac; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <img src="/videos/tsr-icon.svg" alt="" />
+      <h1>Text us to get started</h1>
+      <a class="button" id="text-link" href="sms:+18582551855">Tap to text</a>
+      <p>Or send a text to</p>
+      <p class="number">858-255-1855</p>
+      <p class="contact">Prefer email? <a href="/contact">Contact us</a></p>
+    </main>
+    <script>
+      (function () {
+        var NUMBER = '+18582551855';
+        var MAX_LENGTH = 120;
+
+        // Only ever goes into the prefilled message, which the visitor reads before sending.
+        // Mailchimp leaves its *|...|* tags in place when previewing, so those count as blank.
+        function clean(value) {
+          if (!value || value.indexOf('*|') > -1) return '';
+          return value.replace(/[\r\n]+/g, ' ').trim().slice(0, MAX_LENGTH);
+        }
+
+        var params = new URLSearchParams(window.location.hash.slice(1));
+        var name = clean(params.get('name'));
+        var email = clean(params.get('email'));
+
+        var who = '';
+        if (name && email) who = 'this is ' + name + ' (' + email + ')';
+        else if (name || email) who = 'this is ' + (name || email);
+
+        var body = (who ? 'Hi, ' + who + '. ' : 'Hi. ') + "I'd like to get boards set up at my venue.";
+        // ?&body= is the form both iOS and Android read.
+        var href = 'sms:' + NUMBER + '?&body=' + encodeURIComponent(body);
+        document.getElementById('text-link').href = href;
+
+        // Don't leave the details in the address bar or browser history.
+        if (window.location.hash && window.history.replaceState) {
+          window.history.replaceState(null, '', window.location.pathname + window.location.search);
+        }
+
+        // Phones go straight to messages. A mail app's browser may block this, so the button stays.
+        if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+          window.location.href = href;
+        }
+      })();
+    </script>
+  </body>
+</html>

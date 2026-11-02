@@ -36,6 +36,12 @@ Object.entries(HERO_VIDEOS).forEach(([route, file]) => {
   });
 });
 
+// Opens a prefilled text. Gmail removes sms: links from emails, so emails link here instead.
+app.get('/text', (_req, res) => {
+  res.set('X-Robots-Tag', 'noindex, nofollow');
+  res.sendFile(path.join(__dirname, 'dist', 'text.html'));
+});
+
 app.get('*', (_req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });

@@ -66,6 +66,12 @@ module.exports = {
           noErrorOnMissing: true,
         },
         {
+          // Standalone page that opens a prefilled text; emails link to it (see server.js).
+          from: path.resolve(__dirname, 'public/text.html'),
+          to: 'text.html',
+          noErrorOnMissing: true,
+        },
+        {
           from: path.resolve(__dirname, 'public/sitemap.xml'),
           to: 'sitemap.xml',
           noErrorOnMissing: true,
