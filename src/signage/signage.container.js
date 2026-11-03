@@ -3,12 +3,17 @@ import './signage.pres.js';
 const IMG = '/assets';
 
 // Same wording as the signage email (_scripts/email-build-2026-10-23.js), which links here
-// so readers whose mail app blocks images can still see the boards.
+// so readers whose mail app blocks images can still see the boards. Only this page's intro
+// mentions Prism, as an optional step up rather than something to avoid.
 const loadSignageProps = async () => ({
   eyebrow: 'Now included with TSR',
   headline: 'Menus, specials & trivia boards',
   intro:
     'TSR receivers now show custom boards created in the new app & sent to a TV the same way you pick a channel.',
+  introPrism: {
+    before: 'Your receivers handle this on their own, and ',
+    after: ' adds even more when you want it.',
+  },
   primaryCta: { label: 'Steps to Set Up', href: '/contact', cta: 'signage_steps' },
   // /text is its own document on the server, not a page of this app, so it is a full page load.
   textCta: { label: 'Text to Get Started', href: '/text', cta: 'signage_text' },
@@ -47,12 +52,10 @@ const loadSignageProps = async () => ({
     },
   ],
   closing: 'Any board can also carry a live scores ticker along the bottom. Boards come with your TSR receivers.',
-  prism: {
-    before: 'Want a board and the game on the same screen, or one source shared across many TVs? That’s what ',
-    label: 'Prism',
-    href: '/prism',
-    cta: 'signage_prism',
-    after: ' is for.',
+  stepUp: {
+    title: 'Want to step it up?',
+    after: ' puts a board and the game on the same screen, splits up to four sources on one TV, and shares one source across many TVs.',
+    button: { label: 'See what Prism adds', cta: 'signage_step_up' },
   },
 });
 

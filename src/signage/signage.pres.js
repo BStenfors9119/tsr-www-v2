@@ -4,6 +4,9 @@ const escapeHtml = (s) =>
     (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c],
   );
 
+// Every mention of Prism on this page links to the Prism page.
+const prismLink = (cta) => `<a href="/prism" data-link data-cta="${cta}">Prism</a>`;
+
 const renderBoard = ({ img, width, height, alt, title, body }) => `
   <article class="signage-board">
     <img src="${img}" width="${width}" height="${height}" alt="${escapeHtml(alt)}">
@@ -13,12 +16,12 @@ const renderBoard = ({ img, width, height, alt, title, body }) => `
     </div>
   </article>`;
 
-export const renderSignage = ({ eyebrow, headline, intro, primaryCta, textCta, boards, closing, prism }) => `
+export const renderSignage = ({ eyebrow, headline, intro, introPrism, primaryCta, textCta, boards, closing, stepUp }) => `
   <section class="signage-hero">
     <div class="tsr-container">
       <p class="signage-hero__eyebrow">${escapeHtml(eyebrow)}</p>
       <h1>${escapeHtml(headline)}</h1>
-      <p class="signage-hero__intro">${escapeHtml(intro)}</p>
+      <p class="signage-hero__intro">${escapeHtml(intro)} ${escapeHtml(introPrism.before)}${prismLink('signage_intro_prism')}${escapeHtml(introPrism.after)}</p>
       <div class="signage-hero__actions">
         <a href="${primaryCta.href}" data-link data-cta="${primaryCta.cta}" class="tsr-button">${escapeHtml(primaryCta.label)}</a>
         <a href="${textCta.href}" data-cta="${textCta.cta}" class="signage-hero__text">${escapeHtml(textCta.label)}</a>
@@ -32,7 +35,11 @@ export const renderSignage = ({ eyebrow, headline, intro, primaryCta, textCta, b
         ${boards.map(renderBoard).join('')}
       </div>
       <p class="signage-closing">${escapeHtml(closing)}</p>
-      <p class="signage-closing">${escapeHtml(prism.before)}<a href="${prism.href}" data-link data-cta="${prism.cta}">${escapeHtml(prism.label)}</a>${escapeHtml(prism.after)}</p>
+      <div class="signage-stepup">
+        <h2>${escapeHtml(stepUp.title)}</h2>
+        <p>${prismLink('signage_step_up_text')}${escapeHtml(stepUp.after)}</p>
+        <a href="/prism" data-link data-cta="${stepUp.button.cta}" class="tsr-button">${escapeHtml(stepUp.button.label)}</a>
+      </div>
     </div>
   </section>
 
@@ -95,6 +102,17 @@ export const renderSignage = ({ eyebrow, headline, intro, primaryCta, textCta, b
     .signage-board h2 { margin: 0 0 0.4rem; font-size: 1.15rem; }
     .signage-board p { margin: 0; color: var(--tsr-muted); }
     .signage-closing { margin: 0 0 0.75rem; max-width: 720px; color: var(--tsr-muted); }
+    .signage-hero__intro a { color: #86efac; font-weight: 700; text-decoration: underline; }
+    .signage-stepup {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background: linear-gradient(135deg, #042316 0%, #0c3622 60%, #1c4a33 100%);
+      color: #fff;
+      border-radius: 12px;
+    }
+    .signage-stepup h2 { margin: 0 0 0.5rem; font-size: 1.5rem; color: #fff; }
+    .signage-stepup p { margin: 0 0 1.25rem; max-width: 640px; color: #dcebe2; }
+    .signage-stepup p a { color: #86efac; font-weight: 700; text-decoration: underline; }
   </style>
 `;
 
