@@ -12,6 +12,7 @@ import './components/venue-request/venue-request.js';
 import './home/home.container.js';
 import './game-sheets/game-sheets.container.js';
 import './prism/prism.container.js';
+import './signage/signage.container.js';
 import './products/products.container.js';
 import './services/services.container.js';
 import './about/about.container.js';

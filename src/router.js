@@ -32,6 +32,16 @@ export const routes = [
       'Prism wirelessly splits your set-top boxes across your TSR receivers and adds trivia scoreboards, menu boards, and split screens — no extra cable box per TV. Now in early access; book a demo for your bar or restaurant.',
   },
   {
+    // Landing page for the signage email; linked from there, not from the site's nav.
+    path: '/signage',
+    tag: 'tsr-signage',
+    label: 'Signage',
+    hidden: true,
+    title: 'Menus, Specials & Trivia Boards on Your TVs',
+    description:
+      'TSR receivers now show custom menu, specials and trivia boards created in the new TSR app and sent to a TV the same way you pick a channel.',
+  },
+  {
     path: '/services',
     tag: 'tsr-services',
     label: 'Services',
