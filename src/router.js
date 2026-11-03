@@ -42,6 +42,16 @@ export const routes = [
       'TSR receivers now show custom menu, specials and trivia boards created in the new TSR app and sent to a TV the same way you pick a channel.',
   },
   {
+    // Linked from the voice email and listed in the sitemap, but not in the site's nav.
+    path: '/voice-control',
+    tag: 'tsr-voice-control',
+    label: 'Voice Control',
+    hidden: true,
+    title: 'Voice Control for Sports Bar TVs: TSR Whisper',
+    description:
+      'TSR Whisper is voice control for the TVs in your sports bar or restaurant. Change channels, set schedules and book games by voice in the TSR app. Now in beta for TSR venues.',
+  },
+  {
     path: '/services',
     tag: 'tsr-services',
     label: 'Services',
