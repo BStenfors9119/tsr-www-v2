@@ -16,6 +16,7 @@ import './signage/signage.container.js';
 import './voice-control/voice-control.container.js';
 import './products/products.container.js';
 import './services/services.container.js';
+import './progress/progress.container.js';
 import './about/about.container.js';
 import './contact/contact.container.js';
 import './login/login.container.js';

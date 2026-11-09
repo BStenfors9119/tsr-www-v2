@@ -60,6 +60,14 @@ export const routes = [
       'Game scheduling, TV grouping, and mobile channel control for sports bars and restaurants — powered by the TSR receiver on your existing cable boxes.',
   },
   {
+    path: '/progress',
+    tag: 'tsr-progress',
+    label: 'Progress',
+    title: 'Progress: What’s New at The Sports Remote',
+    description:
+      'Everything shipped at The Sports Remote since April 2026, month by month: the TSR PWA app, receivers, Prism, signage, voice control, energy savings and more.',
+  },
+  {
     path: '/about',
     tag: 'tsr-about',
     label: 'About Us',

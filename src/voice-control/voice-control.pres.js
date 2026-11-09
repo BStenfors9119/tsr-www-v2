@@ -4,11 +4,13 @@ const escapeHtml = (s) =>
     (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c],
   );
 
-const renderExample = ({ img, alt, title, body }) => `
+// The phrases first, one per line as spoken quotes, then one short line: easy to skim.
+const renderExample = ({ img, alt, title, says, body }) => `
   <article class="voice-example">
     <img src="${img}" width="1280" height="720" alt="${escapeHtml(alt)}">
     <div class="voice-example__copy">
       <h2>${escapeHtml(title)}</h2>
+      <ul class="voice-says">${says.map((s) => `<li><q>${escapeHtml(s)}</q></li>`).join('')}</ul>
       <p>${escapeHtml(body)}</p>
     </div>
   </article>`;
@@ -72,7 +74,7 @@ export const renderVoiceControl = ({
 
       <div class="voice-activation">
         <h2>${escapeHtml(activation.title)}</h2>
-        <p>${escapeHtml(activation.notice)}</p>
+        <p>${escapeHtml(activation.notice.before)}<b class="voice-activation__key">${escapeHtml(activation.notice.strong)}</b>${escapeHtml(activation.notice.after)}<b class="voice-activation__key">${escapeHtml(activation.notice.end)}</b></p>
         <ol>${activation.steps.map(renderActivationStep).join('')}</ol>
         <a href="${primaryCta.href}" data-link data-cta="voice_request_activation" class="tsr-button">${escapeHtml(primaryCta.label)}</a>
       </div>
@@ -130,6 +132,14 @@ export const renderVoiceControl = ({
     .voice-example__copy { padding: 1rem 1.25rem 1.25rem; }
     .voice-example h2 { margin: 0 0 0.4rem; font-size: 1.15rem; }
     .voice-example p { margin: 0; color: var(--tsr-muted); }
+    .voice-says { list-style: none; margin: 0.5rem 0 0.75rem; padding: 0; display: grid; gap: 0.35rem; }
+    .voice-says li {
+      padding-left: 0.65rem;
+      border-left: 3px solid var(--tsr-accent);
+      font-weight: 700;
+      line-height: 1.35;
+    }
+    .voice-says q { quotes: '“' '”'; }
     .voice-control-note { max-width: 720px; margin: 2rem 0; color: var(--tsr-muted); }
     .voice-activation {
       padding: 1.5rem;
@@ -142,6 +152,7 @@ export const renderVoiceControl = ({
     .voice-activation ol { margin: 0 0 1.25rem; padding-left: 1.25rem; display: grid; gap: 0.5rem; color: #dcebe2; }
     .voice-activation ul { margin: 0.35rem 0 0; padding-left: 1.1rem; display: grid; gap: 0.25rem; }
     .voice-activation b { color: #fff; }
+    .voice-activation b.voice-activation__key { color: #86efac; }
     .voice-setup-title { margin: 2.5rem 0 1rem; font-size: 1.5rem; scroll-margin-top: 5rem; }
     .voice-device { padding: 1.25rem; }
     .voice-device h3 { margin: 0 0 0.6rem; font-size: 1.15rem; }

@@ -18,27 +18,35 @@ const loadVoiceControlProps = async () => ({
       img: `${IMG}/tsr-voice-command.jpg`,
       alt: 'Saying ESPN on Bar 3 in the TSR app',
       title: 'Change TVs now',
-      body: '“ESPN on Bar 3.” “Channel 206 on the patio.” “Turn off all TVs.” The app shows what it heard and what it is about to do before anything changes.',
+      says: ['ESPN on Bar 3', 'Channel 206 on the patio', 'Turn off all TVs'],
+      body: 'You see what it heard before anything changes.',
     },
     {
       img: `${IMG}/tsr-voice-schedule.jpg`,
       alt: 'A schedule created by voice',
       title: 'Schedule it out loud',
-      body: '“Every Saturday at 11 turn on the patio.” “At 2 AM turn off all TVs.” Check the summary, then tap Schedule.',
+      says: ['Every Saturday at 11 turn on the patio', 'At 2 AM turn off all TVs'],
+      body: 'Check the summary, then tap Schedule.',
     },
     {
       img: `${IMG}/tsr-voice-game.jpg`,
       alt: 'A game booked by team name',
       title: 'Book games by team name',
-      body: '“Put the Lakers game on Bar 3.” TSR finds the game in the listings and matches it to your channels. Schedule it, or tap Change Now if it’s time.',
+      says: ['Put the Lakers game on Bar 3'],
+      body: 'TSR finds the game and your channel. Schedule it, or tap Change Now if it’s on.',
     },
   ],
   control:
     'Staff stay in control. A command for one named TV goes through after a two-second pause, and anything bigger, like all TVs, a group or a schedule, waits for a tap. Power and schedules are limited to managers.',
   activation: {
     title: 'Activating TSR Whisper',
-    notice:
-      'TSR Whisper is a beta feature, available to current TSR venues and provided as is. It may not perform as intended, and commands may produce unexpected results, including changes to your TVs, channels or schedules. Use during the beta is at your own discretion.',
+    // "BETA feature" and the last sentence are drawn bold and green (see the pres).
+    notice: {
+      before: 'TSR Whisper is a ',
+      strong: 'BETA feature',
+      after: ', available to current TSR venues and provided as is. It may not perform as intended, and commands may produce unexpected results, including changes to your TVs, channels or schedules. ',
+      end: 'Use during the BETA is at your own discretion.',
+    },
     steps: [
       { title: 'Ask us to turn it on.', text: 'Tell us who at your venue should have it.' },
       {

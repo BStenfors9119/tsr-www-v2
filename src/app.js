@@ -48,6 +48,9 @@ export class TsrApp extends HTMLElement {
       const href = link.getAttribute('href');
       window.history.pushState({}, '', href);
       window.dispatchEvent(new PopStateEvent('popstate'));
+      // The page is swapped in place, so start the new one at the top. Links with a hash
+      // (footer Progress months) scroll to their own target instead.
+      if (!href.includes('#')) window.scrollTo(0, 0);
     });
   }
 
