@@ -7,11 +7,16 @@ const escapeHtml = (s) =>
 const renderStat = ({ value, label }) => `
   <div class="progress-stat"><b>${escapeHtml(value)}</b><span>${escapeHtml(label)}</span></div>`;
 
+// Every tag is a filter button: clicking one (in the legend or on a card) narrows the page
+// to that tag's items; clicking the active tag again, or All, clears it.
 const renderTag = (tags, key) =>
-  `<span class="progress-tag progress-tag--${key}">${escapeHtml(tags[key])}</span>`;
+  `<button type="button" class="progress-tag progress-tag--${key}" data-filter="${key}" aria-pressed="false">${escapeHtml(tags[key])}</button>`;
+
+const renderAllTag = () =>
+  '<button type="button" class="progress-tag progress-tag--all is-active" data-filter="" aria-pressed="true">All</button>';
 
 const renderItem = (tags) => ([tag, title, body]) => `
-  <article class="progress-item">
+  <article class="progress-item" data-tag="${tag}">
     ${renderTag(tags, tag)}
     <h3>${escapeHtml(title)}</h3>
     <p>${escapeHtml(body)}</p>
@@ -22,9 +27,9 @@ const renderMonth = (tags) => ({ id, name, subtitle, theme, items }) => `
   <section class="progress-month" id="progress-${id}">
     <details>
       <summary>
-        <h2>${escapeHtml(name)} <small>${escapeHtml(subtitle)}</small><span class="progress-count">${items.length} items</span></h2>
+        <h2>${escapeHtml(name)} <small>${escapeHtml(subtitle)}</small><span class="progress-count" data-total="${items.length}">${items.length} items</span></h2>
         <p class="progress-theme">${escapeHtml(theme)}</p>
-        <ul class="progress-achieved">${items.map(([, title]) => `<li>${escapeHtml(title)}</li>`).join('')}</ul>
+        <ul class="progress-achieved">${items.map(([tag, title]) => `<li data-tag="${tag}">${escapeHtml(title)}</li>`).join('')}</ul>
       </summary>
       <div class="progress-items">${items.map(renderItem(tags)).join('')}</div>
     </details>
@@ -52,7 +57,7 @@ export const renderProgress = ({ eyebrow, headline, intro, stats, tags, months, 
 
   <section class="progress-section">
     <div class="tsr-container">
-      <div class="progress-legend">${Object.keys(tags).map((k) => renderTag(tags, k)).join('')}</div>
+      <div class="progress-legend" aria-label="Filter by area">${renderAllTag()}${Object.keys(tags).map((k) => renderTag(tags, k)).join('')}</div>
       ${months.map(renderMonth(tags)).join('')}
       <p class="progress-footnote">${escapeHtml(footnote)}</p>
     </div>
@@ -208,7 +213,15 @@ export const renderProgress = ({ eyebrow, headline, intro, stats, tags, months, 
       border-radius: 999px;
       color: var(--tag);
       border: 1px solid color-mix(in srgb, var(--tag) 45%, transparent);
+      background: transparent;
+      font-family: inherit;
+      cursor: pointer;
     }
+    .progress-tag:hover { border-color: var(--tag); }
+    .progress-tag:focus-visible { outline: 2px solid var(--tag); outline-offset: 2px; }
+    .progress-tag.is-active { background: var(--tag); border-color: var(--tag); color: #fff; }
+    .progress-tag--all { --tag: var(--tsr-fg); }
+    .progress-tag--all.is-active { color: var(--tsr-bg); }
     .progress-legend .progress-tag { margin-bottom: 0; }
     .progress-tag--app { --tag: var(--tsr-accent); }
     .progress-tag--rx { --tag: #3b82f6; }
@@ -249,9 +262,36 @@ export class TsrProgressPres extends HTMLElement {
     this._wire();
   }
 
+  // Narrow every month to one tag's items ('' = all). Months stay as the grouping: cards and
+  // closed-panel pills outside the tag hide, counts read "N of M", and empty months hide.
+  _applyFilter(key) {
+    this._filter = key;
+    const matches = (el) => !key || el.dataset.tag === key;
+    this.querySelectorAll('.progress-tag[data-filter]').forEach((btn) => {
+      const active = btn.dataset.filter === key;
+      btn.classList.toggle('is-active', active);
+      btn.setAttribute('aria-pressed', String(active));
+    });
+    this.querySelectorAll('.progress-month').forEach((month) => {
+      let shown = 0;
+      month.querySelectorAll('.progress-item').forEach((card) => {
+        card.hidden = !matches(card);
+        if (!card.hidden) shown += 1;
+      });
+      month.querySelectorAll('.progress-achieved li').forEach((li) => {
+        li.hidden = !matches(li);
+      });
+      const count = month.querySelector('.progress-count');
+      count.textContent = key ? `${shown} of ${count.dataset.total}` : `${count.dataset.total} items`;
+      month.hidden = shown === 0;
+    });
+  }
+
   openMonth(id) {
     const section = this.querySelector(`#progress-${id}`);
     if (!section) return;
+    // A month hidden by the filter can't be scrolled to: clear the filter first.
+    if (section.hidden) this._applyFilter('');
     section.querySelector('details').open = true;
     section.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
@@ -264,6 +304,12 @@ export class TsrProgressPres extends HTMLElement {
       a.addEventListener('click', (e) => {
         e.preventDefault();
         this.openMonth(a.dataset.month);
+      });
+    });
+    this.querySelectorAll('.progress-tag[data-filter]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const key = btn.dataset.filter;
+        this._applyFilter(key && key === this._filter ? '' : key);
       });
     });
     this.querySelectorAll('.progress-nav button[data-open]').forEach((btn) => {

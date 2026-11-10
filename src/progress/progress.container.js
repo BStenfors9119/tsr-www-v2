@@ -2,7 +2,8 @@ import './progress.pres.js';
 
 // Month-by-month record of what shipped across the TSR platform. Linked from the nav and the
 // footer, so a venue asking "what am I getting for my monthly fee?" can be pointed here.
-// Internal copy of the same report: _docs/TSR_PROGRESS_REPORT_APR_NOV_2026.html (meta-repo).
+// Public, trimmed version: customer outcomes only, no internals or build infrastructure.
+// The full internal report is _docs/TSR_PROGRESS_REPORT_APR_NOV_2026.html (meta-repo).
 // To add a month, append a block to `months`; tag keys map to labels in `tags`.
 // The footer builds its Progress column from this list too (progressMonthLinks).
 const months = [
@@ -36,7 +37,6 @@ const months = [
       ['cloud', 'Live score notifier', 'Launched a dedicated service that watches live games and pushes score updates straight to the app.'],
       ['prism', 'Prism project started', 'Began Prism, the media-streaming companion that "beams" content such as score tickers and ads onto TVs.'],
       ['web', 'New thesportsremote.com', 'Rebuilt the marketing site with customer testimonials, instructional videos, router install guides and privacy-respecting analytics.'],
-      ['cloud', 'Secured email and contact forms', "Added protection against abuse on the website's email forms and the email endpoints behind them."],
     ],
   },
   {
@@ -47,23 +47,20 @@ const months = [
       'The TSR PWA went live, receivers got a security overhaul and encrypted local connections, Prism beams came to the remote, and the app learned which games matter most each day.',
     items: [
       ['app', 'TSR PWA App Launched', 'The TSR web app went live for venues, bringing scheduling, favorites and remote control to any phone, tablet or desktop.'],
-      ['rx', 'Receiver security overhaul', 'Receivers no longer need root privileges to run, and their endpoints can require authentication with a single switch.'],
-      ['rx', 'Encrypted local connections (TLS)', 'Receivers fetch their own certificates and serve HTTPS on the venue network, so the app can talk to them directly and securely.'],
+      ['rx', 'Receiver security overhaul', 'Receivers were locked down to run with only the access they need, and their controls can require authentication with a single switch.'],
+      ['rx', 'Encrypted connections to receivers', 'The app now talks to receivers on the venue network over encrypted connections.'],
       ['app', 'Starting Lineup', "A daily \"Starting Lineup\" of the biggest games, customizable per venue, so staff don't have to hunt for tonight's marquee matchups. It can also drive schedules and presets."],
       ['prism', 'Prism beams in the remote', 'Staff can create, manage and send Prism beams to TVs from the remote control. The app only offers receivers that can actually play a beam.'],
       ['app', 'Printable channel lineups', "Print the day's games and channels from any phone or desktop, either everything or just the Starting Lineup. The website started advertising the free printouts."],
-      ['cloud', 'Full DirecTV package tracking', 'The system now tracks which base and add-on channel packages each venue subscribes to, so it only suggests channels the venue actually gets.'],
+      ['cloud', 'Channel suggestions that match your packages', 'TSR knows which base and add-on packages each venue subscribes to, so it only suggests channels the venue actually gets.'],
       ['cloud', 'Streaming events', 'Began importing games that are on streaming services, alongside the regular TV listings.'],
       ['app', 'Real-time sync across devices', 'Every action in the app, including Prism, now broadcasts an event so every staff device stays in sync instantly.'],
       ['app', 'Tablet mode', 'Added a first version of a tablet layout for wall-mounted and front-of-house tablets.'],
       ['app', 'Free tier sign-up', 'New venues can sign themselves up on a free tier straight from the app.'],
-      ['cloud', 'Local DNS sync with venue routers', "Receiver hostnames are synced automatically into each venue's UniFi router so devices can be found by name."],
       ['cloud', 'Billing emails with invoice links', 'Billing emails now include invoice links and are styled to match the website.'],
       ['cloud', 'Receiver reset, deregister and self-cleanup', 'Receivers can be reset and deregistered remotely, and they clean up stale registrations by themselves.'],
-      ['admin', 'Admin: remote receiver updates', 'The internal admin app can push software updates to receivers, add streaming events and manage providers.'],
+      ['rx', 'Remote receiver updates', 'Receivers can be updated remotely, so new features arrive without a visit to the venue.'],
       ['web', 'Products, payments and SEO', 'Added product pages, payment links, an install spotlight and SEO improvements, plus a "try the app" callout.'],
-      ['sp', 'Package repository and release scripts', 'Set up release scripts for the in-house software package repository, with support for multiple architectures and test releases.'],
-      ['sp', 'Secure venue networking', 'Standardized the WireGuard VPN setup for connecting new venues back to HQ.'],
     ],
   },
   {
@@ -83,18 +80,17 @@ const months = [
       ['app', 'In-app updates', 'The app announces when an update is ready and can force an update when needed.'],
       ['app', 'Apple Shortcuts pairing', 'Added a pair/claim flow so iPhone Shortcuts can open the app directly into Snap-n-Find or Snap-n-Sync.'],
       ['app', 'Terms of Service and swipe navigation', 'Added legal terms and swipe gestures between tabs, events and receivers.'],
-      ['admin', 'Contracts, domains and email', 'Admin can track signed contracts per venue, manage domains, and send branded HTML emails with attachments. Notifications go out when a contract is accepted or rejected.'],
       ['cloud', 'Live score matching', 'Improved how TV listings are matched to live ESPN scores so the right score shows on the right game.'],
-      ['prism', 'Prism working release', 'Prism reached a stable working version, with deployment scripts for the Windows media hosts.'],
+      ['prism', 'Prism stable release', 'Prism reached a stable working version, ready for venue installs.'],
       ['web', 'Snap-n-Sync promotion', 'Added a Snap-n-Sync callout and new client logos to the website.'],
     ],
   },
   {
     id: 'aug',
     name: 'August 2026',
-    subtitle: 'Auto-Tune and the move to Rust',
+    subtitle: 'Auto-Tune and richer game cards',
     theme:
-      'TSR started changing channels for entire seasons on its own, game cards got richer, and the first back-end services were rewritten in Rust.',
+      'TSR started changing channels for entire seasons on its own, game cards got richer, and scores and listings got faster and more reliable.',
     items: [
       ['app', 'Full-season Auto-Tune', "Schedule a team's whole season once and TSR tunes the right TVs to every game automatically, including series and channel fallbacks."],
       ['app', 'Screensaver Buster', 'Keeps idle TVs from falling into cable-box screensavers by nudging them back to a live channel on a schedule.'],
@@ -104,19 +100,17 @@ const months = [
       ['cloud', 'Streaming services in listings', "Games on streaming services are ingested with the service they're on and shown on screen and on printed sheets."],
       ['cloud', 'Custom networks and team aliases', 'Venues can add their own custom channels. Team-name aliases keep games matched when sources disagree on spelling.'],
       ['cloud', 'Multiple DirecTV base packages', 'Venues with more than one DirecTV base package are now handled correctly.'],
-      ['cloud', 'Rust live-score notifier', 'Rewrote the live-score push service in Rust for lower resource use and better reliability.'],
-      ['cloud', 'Rust listings importer (systems-v2)', 'Rewrote the nightly TV listings and schedule importer in Rust. It includes timezone fixes and support for new providers.'],
-      ['rx', 'Fire TV control over ADB', 'Receivers can control Fire TV devices over ADB for input selection and power.'],
-      ['admin', 'Admin CRM, SSH terminal and fleet versions', 'Admin gained a CRM tool, a built-in SSH terminal for receivers, and a view of which software version every receiver is running.'],
+      ['cloud', 'Faster, more reliable scores and listings', 'Live scores and nightly TV listings run on rebuilt services that use fewer resources and fail less often, with better timezone handling.'],
+      ['rx', 'Fire TV control', 'Receivers can control Fire TV devices for input selection and power.'],
       ['web', 'Hero videos', 'Added marketing hero videos and a TSR icon for browser tabs and bookmarks.'],
     ],
   },
   {
     id: 'sep',
     name: 'September 2026',
-    subtitle: 'Smarter scheduling and in-house CI/CD',
+    subtitle: 'Smarter scheduling and split screens',
     theme:
-      'Scheduling got smarter, Prism learned split screens and deep links, and Soda Pop Systems moved builds and deploys onto its own build server, Frasier.',
+      'Scheduling got smarter, and Prism learned split screens and deep links.',
     items: [
       ['app', 'Macros and the scheduled Shuffler', 'Staff can create macros that run several commands at once, and the channel Shuffler can now be put on a schedule.'],
       ['cloud', 'Smarter scheduling', 'Added per-event start buffers, series-aware tuning (start the next game when the previous one ends), a lateness ceiling and event priorities.'],
@@ -128,9 +122,6 @@ const months = [
       ['prism', 'Deep links to content', 'The app can open a specific streaming channel or piece of content directly on a Prism media stick.'],
       ['prism', 'Split-screen composite beams', 'Prism can combine multiple sources into one split-screen beam. Capture inputs register themselves automatically on install.'],
       ['rx', 'Beta release channel', 'Added a beta channel for receiver software so new versions can be tested at selected venues first.'],
-      ['sp', 'Frasier build server and sp-builder', 'Stood up Frasier, an in-house build server running the sp-builder service. It replaces cloud image builds for the backend, admin, PWA and listings services.'],
-      ['sp', 'One-click CI/CD with rollback', 'The admin app gained a Builder page that pulls from GitHub, builds and deploys each service, and can roll any workload back to a previous image.'],
-      ['sp', 'Admin moved to systemd', 'Moved the internal admin site from Docker to a native system service on the HQ server for simpler, faster deploys.'],
     ],
   },
   {
@@ -147,21 +138,17 @@ const months = [
       ['prism', 'Guest casting and beam nudging', 'Guests can share content to a TV, and staff can fine-tune where a beam sits on screen.'],
       ['signage', 'Signage without Prism', 'Venues without Prism can run ads, menus and boards straight from their receivers. The app talks to them directly over the local network.'],
       ['app', 'Voice control', 'Control the whole app by voice from a phone, Android shortcut or smartwatch. Change channels, build schedules, create groups, add users and ask basic questions.'],
-      ['cloud', 'Rust backend (backend-v2) and voice parser', 'Launched a new Rust API that powers voice commands. It understands sports-bar slang and sound-alike words, learns from commands that fail, and runs in production on Google Cloud.'],
+      ['cloud', 'Voice that understands sports-bar slang', 'Voice commands understand sports-bar slang and sound-alike words, and get better as staff use them.'],
       ['rx', 'TV power tracking', 'Receivers track whether each TV is actually on. The 3 AM maintenance reboot no longer wakes TVs, and screens that need an HDMI fix are flagged.'],
-      ['rx', 'Dual power methods and smarter plugs', 'TVs can use a smart plug plus a fallback wake method with configurable delays. Plugs gained renaming, MAC pinning and moving between Wi-Fi networks.'],
+      ['rx', 'Dual power methods and smarter plugs', 'TVs can use a smart plug plus a fallback wake method with configurable delays, and plugs can be renamed and moved between Wi-Fi networks.'],
       ['app', 'Energy savings reports', 'Reports show energy used by TVs and accessories against venue hours, with historical electricity rates for real dollar savings.'],
       ['rx', 'Hello/goodbye and input-help screens', "Friendly on-screen messages appear when TVs power on or off. An input-help screen shows staff how to get back to TSR's input."],
       ['rx', '"TV ON" lands on a game', "Turning a TV on through TSR tunes it straight to a game from the venue's shuffle list. Turning a TV off cleanly handles anything scheduled for it."],
       ['app', 'Light theme and custom themes', 'Added a full light theme, venue-defined custom themes, and a "What\'s New" dialog.'],
       ['app', 'Self-test and schedule disable', "A one-tap self-test checks a venue's TSR setup. Schedules can be paused instead of deleted."],
-      ['cloud', 'Team name mapping and conference realignment', 'A mapping layer reconciles team names between listings and live scores, and conference realignment is kept up to date.'],
-      ['cloud', 'Leaner phone-home traffic', 'Trimmed and compressed the data each receiver exchanges with the cloud every minute.'],
+      ['cloud', 'More accurate game matching', 'Games are matched more reliably between TV listings and live scores, and conference realignment is kept up to date.'],
       ['rx', 'Venue update seeding', 'One receiver at a venue can act as a local update server for the rest, so updates download once per venue and roll out in waves.'],
       ['rx', 'TV compatibility fixes', 'Fixed HDMI-CEC control for LG TVs, older receiver OS versions and Fire TV wake behavior.'],
-      ['sp', 'Receiver builds on Frasier', 'Receiver software now builds on Frasier with a choice of architectures, then gets promoted from testing to beta to production from the admin app.'],
-      ['sp', 'App release channels', 'The PWA has alpha and beta channels, with patch, minor and major release controls and automatic versioning.'],
-      ['sp', 'Shared Rust platform (sp crate)', 'Started a company-wide Rust library for database, auth, HTTP, mail and image handling, now used by backend-v2 and other Soda Pop projects.'],
       ['web', 'Website feature refresh', 'Updated the website with the new features and Prism messaging, and added full-size images for marketing emails.'],
     ],
   },
@@ -170,7 +157,7 @@ const months = [
     name: 'November 2026',
     subtitle: 'To date (through Nov 9)',
     theme:
-      'Football Sundays, after-hours power savings, visibility into what every TV is showing, and database hardening.',
+      'Football Sundays, after-hours power savings, visibility into what every TV is showing, and a faster, more secure platform.',
     items: [
       ['rx', 'After-hours auto-off', 'TVs that turn themselves on outside business hours are switched back off automatically, for one TV or the whole venue.'],
       ['cloud', 'Power-on football pick', 'On Saturdays and Sundays, turning a TV on tunes it to the best available football game based on tiered priorities.'],
@@ -179,12 +166,9 @@ const months = [
       ['app', 'Sound receiver', "Mark the receiver that controls the venue's audio so scheduling and auto-tuning keep sound on the right game."],
       ['app', 'Voice: whole seasons and custom phrases', "Schedule a team's entire season by voice, and map custom phrases to macros and commands."],
       ['app', 'Cleaner controls and auto-save', 'Checkboxes were replaced with toggles and pill buttons, a receiver/group picker is used throughout, and venue details save automatically without overwriting each other.'],
-      ['admin', 'Channel preference learner', 'A new system that learns which channels each venue prefers for each kind of game.'],
-      ['cloud', 'DirecTV listings correction', "Channel numbers are cross-checked against DirecTV's own data, which fixed shifted NFL Sunday Ticket channels. Admins can compare, revert and switch it off."],
-      ['admin', 'Receiver online/offline accuracy', 'Fixed timezone handling so admin shows accurately when each receiver was last seen.'],
-      ['cloud', 'Database hardening and tuning', 'Locked the production database down to encrypted, proxy-only connections. Added indexes that cut a hot query from roughly 78,000 rows read to 127, and retired a 39-million-row legacy table.'],
+      ['cloud', 'More accurate DirecTV channel numbers', 'Fixed shifted channel numbers, including NFL Sunday Ticket, so TSR tunes to the right channel.'],
+      ['cloud', 'Faster, more secure data', 'The systems behind TSR were made faster and more secure.'],
       ['web', 'Signage and voice control pages', 'New website pages for Signage and Voice Control, plus tap-to-text links in marketing emails.'],
-      ['sp', 'sp-orch orchestration server', 'Brought up a dedicated HQ server for a future Rust orchestrator that runs long jobs and follow-ups around the clock.'],
     ],
   },
 ];
@@ -199,11 +183,10 @@ const loadProgressProps = async () => ({
   eyebrow: 'The Sports Remote · Progress Report',
   headline: 'April – November 2026: what shipped',
   intro:
-    'Eight months of work across the whole TSR platform: the receivers on every TV, the TSR app, Prism media beams, signage, voice control, energy savings, and the Soda Pop Systems infrastructure that builds and ships all of it.',
+    'Eight months of work across the whole TSR platform: the receivers on every TV, the TSR app, Prism media beams, signage, voice control, energy savings and more.',
   stats: [
-    { value: '870+', label: 'commits shipped' },
-    { value: '17', label: 'code repositories' },
-    { value: '3', label: 'services rewritten in Rust' },
+    { value: '8', label: 'months of releases' },
+    { value: '90+', label: 'features & improvements' },
     { value: '2', label: 'app editions (Pro + Public)' },
   ],
   tags: {
@@ -213,12 +196,10 @@ const loadProgressProps = async () => ({
     signage: 'Signage',
     cloud: 'Cloud',
     web: 'Website',
-    admin: 'Admin',
-    sp: 'Soda Pop Systems',
   },
   months,
   footnote:
-    'The Sports Remote is built by Soda Pop Systems. This report covers work from April 1 through November 9, 2026, across the TSR receivers, app, Prism, cloud services, website, admin tools and build infrastructure.',
+    'The Sports Remote is built by Soda Pop Systems. This report covers work from April 1 through November 9, 2026, across the TSR receivers, app, Prism, signage and cloud services.',
 });
 
 export class TsrProgress extends HTMLElement {
